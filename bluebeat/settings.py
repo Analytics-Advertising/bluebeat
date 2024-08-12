@@ -143,11 +143,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "system_management.User"
 
 
-SENDGRID_API_KEY =  config('SENDGRID_API_KEY')
-
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_HOST_USER = 'apikey' 
-EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY')
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
