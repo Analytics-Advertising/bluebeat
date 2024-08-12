@@ -1,0 +1,159 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
+    
+
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+
+  </head>
+  <body>
+  
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class=".bg-blue-beat{" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
+                <div class="logo-container mb-1">
+                    <img class="img-fluid logo-dashboard" src="{% static 'images/logo-white.png' %}"/>
+                </div>
+            </div>
+            <div class="list-group list-group-flush my-3">
+                
+                <a href="{% url 'dealer-dashboard' %}" class="list-group-item list-group-item-action fw-bold second-text {% if not request.resolver_match.url_name == 'dealer-dashboard' %} bg-transparent text-white {% endif %}" >
+                    <span class="icon-square">
+                        <i class="fas fa-tachometer-alt m-icon-force"></i>
+                    </span>
+                    My Home
+                </a>
+                
+                <a href="{% url 'commercials' %}" class="list-group-item list-group-item-action fw-bold second-text {% if not request.resolver_match.url_name == 'commercials' %} bg-transparent text-white {% endif %}" >
+                    <span class="icon-square">
+                        <i class="fas fa-file-lines m-icon-force"></i>
+                    </span>
+                    My Commercials
+                </a>
+
+
+                <a href="{% url 'agreements' %}" class="list-group-item list-group-item-action fw-bold second-text {% if not request.resolver_match.url_name == 'agreements' %} bg-transparent text-white {% endif %}" >
+                    <span class="icon-square">
+                        <i class="fas fa-book-journal-whills m-icon-force"></i>
+                    </span>
+                    Reseller & Rica Ag...
+                </a>
+
+
+                <a href="{% url 'verification-documents' %}" class="list-group-item list-group-item-action fw-bold second-text {% if not request.resolver_match.url_name == 'verification-documents' %} bg-transparent text-white {% endif %}" >
+                    <span class="icon-square">
+                        <i class="fas fa-users m-icon-force"></i>
+                    </span>
+                    Verification Documents
+                </a>
+                
+
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="border-secondary border-bottom navbar navbar-expand-lg navbar-light bg-white py-4  rounded  m-2 px-4">
+                <div class="d-flex align-items-center">
+                    <span class="icon-square">
+                    <i class="fas fa-align-left primary-text fs-4 ml-1" id="menu-toggle"></i>
+                    </span>
+                    <div class="align-items-center px-3">
+                        <h2 class="fs-2 m-0">Dashboard</h2>
+                        <h3 class="fs-3 m-0"> {% block nav_title %}{% endblock %}
+                        </h3>
+                    </div>
+                 </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user mr-2"></i>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <main>
+                {% block content %}{% endblock %}
+              </main>
+
+
+            
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    {% comment %} <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+ 
+    <script>
+        var el = document.getElementById("wrapper");
+        var toggleButton = document.getElementById("menu-toggle");
+
+        toggleButton.onclick = function () {
+            el.classList.toggle("toggled");
+        };
+    </script>
+
+    <script >
+        $(document).ready(function() {
+            $('#student-table').DataTable({
+                "language": {
+                    "search": "_INPUT_", // This replaces the default "Search" text with a placeholder
+                    "searchPlaceholder": "Search..." // Set the placeholder text
+                },
+                "search": {
+                    "search": "", // Hide the default search box
+                    "className": "form-control" // Add Bootstrap form-control class to the custom search input
+                },
+                "initComplete": function () {
+                    // Increase the width of the custom search input box
+                    $('.dataTables_filter input[type="search"]').css({'width': '300px'});
+                }
+            });
+        });
+        </script>
+</body>
+
+</html>

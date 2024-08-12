@@ -1,0 +1,345 @@
+{% extends 'dealer/index_dealer.html' %} 
+{% load static %}
+{% block nav_title%}Verification Document {% endblock %} 
+
+{% block content %}
+
+
+<style>
+   
+    /* Custom styling for file input */
+
+    #documents-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 2rem 0;
+  }
+
+  .document-card {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .document-card p {
+      font-weight: bold;
+      margin: 0;
+      margin-bottom: 0.5rem;
+  }
+
+  .document-card a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+  }
+
+  .document-card a:hover {
+      text-decoration: underline;
+  }
+
+
+    .custom-file-input {
+      color: transparent;
+    }
+    .custom-file-input::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+    .custom-file-input::before {
+      content: 'Select File';
+      display: inline-block;
+      background: #007bff;
+      color: white;
+      padding: 6px 12px;
+      outline: none;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1px solid #007bff;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .custom-file-input:hover::before {
+      background: #0056b3;
+    }
+    .custom-file-input:active::before {
+      background: #0056b3;
+    }
+  </style>
+
+
+<form id="VerificationDocsForm" class="container mt-4">
+   
+    <div class="card p-2 m-3">
+      <div class="form-group row">
+        <div class="col-md-9">
+          <div class="d-flex">
+            <div class="applicant-initials">
+              <i class="fas fa-file-lines solid"></i>
+            </div>
+            <div class="ml-2">
+              <h4 class="mt-2">ID Document/Passprt</h4>
+            </div>
+          </div>
+          <p>
+            A clear scanned colour copy of your ID, such as a valid passport,
+            driving license, ID book or both sides of an ID card.
+          </p>
+        </div>
+        <div class="col-md-3 d-flex align-items-center">
+          <input
+            type="file"
+            name="id_document"
+            id="id_document"
+            class="form-control-file"
+            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+          />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card p-2 m-3">
+        <div class="form-group row">
+          <div class="col-md-9">
+            <div class="d-flex">
+              <div class="applicant-initials">
+                <i class="fas fa-file-lines solid"></i>
+              </div>
+              <div class="ml-2">
+                <h4 class="mt-2">Proof of bank account</h4>
+              </div>
+            </div>
+            <p>
+                A clear scanned or digital document as proof of bank account showing 
+                your name and bank account number, like a bank statement issued in the 
+                last 3 months or a confirmation letter from your bank.
+            </p>
+          </div>
+          <div class="col-md-3 d-flex align-items-center">
+            <input
+              type="file"
+              name="proof_of_bank_account"
+              id="proof_of_bank_account"
+              class="form-control-file"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-2 m-3">
+        <div class="form-group row">
+          <div class="col-md-9">
+            <div class="d-flex">
+              <div class="applicant-initials">
+                <i class="fas fa-file-lines solid"></i>
+              </div>
+              <div class="ml-2">
+                <h4 class="mt-2">Proof of residence</h4>
+              </div>
+            </div>
+            <p>
+                A clear scanned or digital document as proof of physical address, such as
+                the first page of a lease agreement, or another official document.
+            </p>
+          </div>
+          <div class="col-md-3 d-flex align-items-center">
+            <input
+              type="file"
+              name="app-proof-of-residence-file"
+              id="app-proof-of-residence-file"
+              class="form-control-file"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+            />
+          </div>
+        </div>
+      </div>
+
+     <div class="card p-2 m-3">
+        <div class="form-group row">
+          <div class="col-md-9">
+            <div class="d-flex">
+              <div class="applicant-initials">
+                <i class="fas fa-file-lines solid"></i>
+              </div>
+              <div class="ml-2">
+                <h4 class="mt-2">Live Photo</h4>
+              </div>
+            </div>
+            <p>
+              A clear live photo of you holding your ID card/Passport, clearly showing an image of you from the ID.
+            </p>
+          </div>
+          <div class="col-md-3 d-flex align-items-center">
+            <input
+              type="file"
+              name="live_photo"
+              id="live_photo"
+              class="form-control-file"
+              accept="image/*"
+              capture="environment" 
+            />
+          </div>
+        </div>
+      </div> 
+      
+
+      
+      
+      
+      
+      <button type="button" id="uploadDocuments" class="btn btn-primary">Submit</button>
+
+  </form>
+
+  <div id="documents-container">
+
+    <div class="application-header mb-4 align-items-center">
+        <div class="d-flex">
+            <div class="circle-icon bg-primary text-white">
+                <span class="application-step-icon">1</span>
+            </div>
+            <div class="application-info ">
+                <h6 class="text-primary"><strong>uploaded documents.</strong></h6>
+            </div>
+        </div>
+        <p>Here are files you upload, downlod to verify.</p>
+    </div>
+    
+</div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+  <script>
+
+    var csrf_token = '{{ csrf_token }}'
+    var upload_documents_url = '{%  url "upload-documents" %}'
+    var get_documents_url = '{% url "get-documents" %}'
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Call the fetchDocuments function when the document loads
+      fetchDocuments();
+  });
+
+
+    $('#uploadDocuments').click(function() {
+      var idNumberFile = document.getElementById('id_document').files[0];
+      var proofOfBankAccount = document.getElementById('proof_of_bank_account').files[0];
+      var proofOfResidenceFile = document.getElementById('app-proof-of-residence-file').files[0];
+
+
+      
+
+      // Convert files to base64
+      var idNumberBase64 = getFileAsBase64(idNumberFile);
+      var proofOfBankAccountBase64 = getFileAsBase64(proofOfBankAccount);
+      var proofOfResidenceBase64 = getFileAsBase64(proofOfResidenceFile);
+
+      Promise.all([idNumberBase64, proofOfBankAccountBase64, proofOfResidenceBase64])
+      .then(values => {
+          // Send base64 data to server via AJAX
+          var data = {
+              idNumber: values[0],
+              proofOfBankAccount: values[1],
+              proofOfResidence: values[2],
+              'csrfmiddlewaretoken': csrf_token
+
+          };
+
+
+          console.log(data)
+          $.ajax({
+              url: upload_documents_url,
+              method: 'POST',
+              data: data,
+              success: function(response) {
+                  if (response.success) {
+
+                      Swal.fire({
+                          icon: 'success',
+                          title: 'Success',
+                          text: 'Documents uploaded successfully'
+                      });
+
+                      fetchDocuments();
+                  } else {
+                      alert('Failed to upload documents');
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Error',
+                          text: 'Failed to upload documents.',
+                      });
+                  }
+              },
+              error: function(xhr, status, error) {
+                  console.error('Error:', error);
+
+                  Swal.fire({
+                      icon: 'success',
+                      title: 'Success',
+                      text: 'Failed to upload documents'
+                  });
+              }
+          });
+      })
+      .catch(error => {
+          console.error('Error:', error);
+
+          Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Failed to upload documents'
+          });
+      });
+  
+  });
+
+
+  function getFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+        if (!file) {
+            resolve(null);
+        }
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            var base64String = reader.result.split(',')[1];
+            resolve(base64String);
+        };
+        reader.onerror = function (error) {
+            reject(error);
+        };
+    });
+}
+
+function fetchDocuments() {
+            fetch(get_documents_url)
+            .then(response => response.json())
+            .then(data => {
+                const documentsContainer = document.getElementById('documents-container');
+                documentsContainer.innerHTML = '';
+
+                data.forEach(doc => {
+                    const documentElement = document.createElement('div');
+                    documentElement.classList.add('document-card');
+                    documentElement.innerHTML = `
+                        <p>Document Type: ${doc.doc_type}</p>
+                        <a href="data:application/pdf;base64,${doc.document}" download="${doc.doc_type}.pdf">Download</a>
+                    `;
+                    documentsContainer.appendChild(documentElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+
+</script>
+  
+
+{% endblock %}

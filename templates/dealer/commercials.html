@@ -1,0 +1,172 @@
+{% extends 'dealer/index_dealer.html' %}
+{% load static %}
+{% block nav_title %}Commercials{% endblock %}
+{% block content %}
+
+
+{% if has_commercial %}
+
+
+<div class="col-md-4">
+    <h4 class="text-primary">Your commercial Schedule A1</h4>
+    <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
+        <div>
+            {% comment %} <p class="fs-2 text-secondary">commercial Schedule</p> {% endcomment %}
+            {% for commercial in has_commercial %}
+            {% comment %} <h3 class="text-secondary"><strong>{{ commercial.commercial_schedule.name }}</strong></h3> {% endcomment %}
+            {% endfor %}
+        </div>
+        <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
+            <i class="fa-solid fa-file-lines"></i>
+        </div>
+        <div class="position-absolute" style="bottom: 10px; right: 10px;">
+            <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.1.pdf' %}" data-schedule-name="Commercial Schedule A1"></i>
+        </div>
+    </div>
+</div>
+
+{% else %}
+
+<div class="container-fluid px-4">
+    <div class="alert alert-warning alert-dismissible text-center fade show my-3" role="alert">
+        <p class="text-dark"><strong>{{ user.first_name }}</strong>, to fully access the dealer dashboard and complete your Reseller and Rica  of Agreement,
+             kindly select a commercial schedule below.
+        </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+
+    <div class="row g-3 my-2">
+
+        <div class="col-md-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
+                <div>
+                    <p class="fs-2 text-secondary">commercial Schedule</p>
+                    <h3 class="text-secondary"><strong>A1</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+                <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                    <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.1.pdf' %}" data-schedule-name="Commercial Schedule A1"></i>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="col-md-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
+                <div>
+                    <p class="fs-2 text-secondary">commercial Schedule</p>
+                    <h3 class="text-secondary"><strong>A2</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+                <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                    <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.2.pdf' %}" data-schedule-name="Commercial Schedule A2"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
+                <div>
+                    <p class="fs-2 text-secondary">commercial Schedule</p>
+                    <h3 class="text-secondary"><strong>B1</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+                <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                    <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.1.pdf' %}" data-schedule-name="Commercial Schedule B1"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mt-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
+                <div>
+                    <p class="fs-2 text-secondary">commercial Schedule</p>
+                    <h3 class="text-secondary"><strong>B2</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+                <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                    <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.2.pdf' %}" data-schedule-name="Commercial Schedule B2"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endif %}
+
+    
+<!-- Modal -->
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">PDF Document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe id="pdfFrame" src="" width="100%" height="500px"></iframe>
+                <input type="hidden" id="selectedSchedule" value="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="chooseButton">Choose</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+  <script>
+
+
+    $(document).ready(function() {
+        $('#pdfModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var pdfUrl = button.data('pdf-url'); // Extract info from data-* attributes
+            var scheduleName = button.data('schedule-name'); // Extract the schedule name
+            var modal = $(this);
+            modal.find('#pdfFrame').attr('src', pdfUrl);
+            modal.find('#selectedSchedule').val(scheduleName); // Store the schedule name in the hidden input
+        });
+
+        $('#chooseButton').on('click', function() {
+            var selectedSchedule = $('#selectedSchedule').val();
+            $.ajax({
+                url: "{% url 'choose-schedule' %}", // Replace with your URL
+                type: "POST",
+                data: {
+                    'schedule': selectedSchedule,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    // Handle success
+                    alert('Commercial schedule chosen successfully!');
+                    $('#pdfModal').modal('hide');
+                },
+                error: function(response) {
+                    // Handle error
+                    alert('An error occurred.');
+                }
+            });
+        });
+    });
+  </script>
+
+  
+{% endblock %}

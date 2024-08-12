@@ -1,0 +1,32 @@
+{% extends 'dealer/index_dealer.html' %}
+{% block nav_title %}Rica & Reseller Agreements{% endblock %}
+{% load static %}
+{% block content %}
+
+
+<div class="container-fluid px-2">
+
+    <div class="container-fluid px-4 border rounded bg-white">
+      <div class="application-header mt-4 align-items-center">
+        <div class="d-flex">
+          <div class="circle-icon bg-primary text-white">
+            <span class="application-step-icon"></span>
+          </div>
+          <div class="application-info">
+            <h6 class="text-primary"><strong>All contracts.</strong></h6>
+          </div>
+        </div>
+        <p>List of all contracts</p>
+      </div>
+  
+      {% include "./agreement_table.html" %}
+    </div>
+  </div>
+  
+  
+  <script>
+    var csrf_token = '{{ csrf_token }}'
+  
+  </script>
+  
+{% endblock %}

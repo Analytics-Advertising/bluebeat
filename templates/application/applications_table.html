@@ -1,0 +1,82 @@
+<div class="card">
+   
+    <div class="card-body">
+        <table class="table">
+            <thead>
+              <tr class="thead-dark">
+                <th scope="col" class="fs-2">Applicant</th>
+                <th scope="col" class="fs-2">Date Applied</th>
+                <th scope="col" class="fs-2">Experienced?</th>
+                <th scope="col" class="fs-2">Status</th>
+                <th scope="col" class="fs-2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for application in applications %}
+              <tr>
+                <td>
+                    <div class="d-flex">
+                        <div class="applicant-initials">
+                            {{ application.user.first_name|slice:":1" }}{{ application.user.last_name|slice:":1" }}
+                        </div>
+                        <div class="ml-2">
+                            <p class="fs-2 m-0 p-0 text-grey-dark">{{ application.user.first_name }} {{ application.user.last_name }}</p>
+                            <p class="fs-1 m-0 p-0 text-grey-dark">{{ application.user.email }}</p>
+                        </div>
+                    </div>
+
+                </td>
+                
+                    <p class="fs-2 text-grey-dark">
+                <td>
+                    <p class="fs-2 text-grey-dark">
+
+                    <i class="fas fa-calendar-alt text-primary mr-2"></i> <!-- Calendar icon -->
+                
+                    {% if application.date_applied %}
+                        {{ application.date_applied|date:"j F Y" }}, {{ application.date_applied|time:"g:i A" }}
+                    {% endif %}</p>
+                </td>
+                
+                <td>
+                    <p class="fs-2 text-grey-dark">
+                        {% if application.has_experience == 'Yes' %}
+                        <i class="fas fa-check-circle text-success"></i> Yes<!-- Green checkmark -->
+                    {% elif application.has_experience == 'No' %}
+                        <i class="fas fa-times-circle text-danger"></i> No<!-- Red cross -->
+                    {% endif %}
+                </p>
+                </td>
+                
+                <td>
+                    {% if application.status == 'Approved' %}
+                        <span class="badge bg-success fs-1 fw-light p-1 text-white">Approved</span>
+                    {% elif application.status == 'Pre-Approved' %}
+                        <span class="badge bg-warning fs-1 fw-light p-1 badge-pill text-dark">Pre-Approved</span>
+                    {% elif application.status == 'Rejected' %}
+                        <span class="badge bg-danger fs-1 fw-light p-1 badge-pill text-white">Rejected</span>
+                    {% elif application.status == 'Pending' %}
+                        <span class="badge bg-info fs-1 fw-light p-1 px-3 badge-pill text-white">Pending</span>
+                    {% endif %}
+                </td>
+                
+                <td class="d-flex">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle bg-white text-primary border-0" type="button" id="actionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="actionDropdown">
+                            <a class="dropdown-item" href="{% url 'applicant-view' application.id %}">View</a>
+                            <a class="dropdown-item" href="#" onclick="editApplication('{{ application.id }}')">Edit</a>
+                            <a class="dropdown-item" href="#" onclick="deleteApplication('{{ application.id }}')">Delete</a>
+                        </div>
+                    </div>
+                </td>
+                
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+

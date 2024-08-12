@@ -1,0 +1,52 @@
+{% extends 'dashboard/index_admin.html' %}
+{% block nav_title %}My Home{% endblock %}
+{% block content %}
+
+<div class="container-fluid px-4">
+    <div class="row g-3 my-2">
+
+        <div class="col-md-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card">
+                <div>
+                    <p class="fs-2 text-secondary">Appplications</p>
+                    <h3 class="text-secondary"><strong>45</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-secondary text-white ">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card">
+                <div>
+                    <p class="fs-2 text-secondary">Approved</p>
+                    <h3 class="text-secondary"><strong>12</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-primary text-white ">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card">
+                <div>
+                    <p class="fs-2 text-secondary">Declined</p>
+                    <h3 class="text-secondary"><strong>43</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-warning-light text-white ">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+            </div>
+        </div>
+
+        
+
+
+
+    </div>
+</div>
+
+    
+{% endblock %}

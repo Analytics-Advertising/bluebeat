@@ -1,0 +1,75 @@
+{% extends 'dealer/index_dealer.html' %}
+{% block nav_title %}Dealer{% endblock %}
+{% block content %}
+
+<div class="container-fluid px-4">
+    <div class="row g-3 my-2 d -none">
+
+        {% comment %} <div class="col-md-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card">
+                <div>
+                    <p class="fs-2 text-secondary">Appplications</p>
+                    <h3 class="text-secondary"><strong>45</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-secondary text-white ">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+        {% comment %} <div class="col-md-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card">
+                <div>
+                    <p class="fs-2 text-secondary">Approved</p>
+                    <h3 class="text-secondary"><strong>12</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-primary text-white ">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+        {% comment %} <div class="col-md-4">
+            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card">
+                <div>
+                    <p class="fs-2 text-secondary">Declined</p>
+                    <h3 class="text-secondary"><strong>43</strong></h3>
+                </div>
+                <div class="widgets-icons-2 rounded-circle bg-warning-light text-white ">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+        
+
+        <!-- Select Commercial Schedule Alert -->
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Action Required!</strong> Please select your commercial schedule under the <strong>Commercial Schedule</strong> section.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <!-- Agree to Rica and Reseller Agreement Alert -->
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Important!</strong> You need to agree to both the <strong>Rica</strong> and <strong>Reseller Agreement</strong> before proceeding.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <!-- Submit Documents Alert -->
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Reminder!</strong> Please submit your documents under the <strong>Unverified Documents</strong> tab.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+
+    </div>
+</div>
+
+    
+{% endblock %}

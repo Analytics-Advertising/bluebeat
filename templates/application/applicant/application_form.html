@@ -1,0 +1,525 @@
+{% load static %} 
+
+<div class="application-full">
+  {% comment %}
+  <div
+    class="bg order-2 order-md-2"
+    style="background-image: url({%static'images/reg_bg.jpeg'%})"
+  ></div>
+  {% endcomment %}
+
+  
+  <div class="contents">
+
+    
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-12">
+          <div
+            class="shadow border bg-white rounded p-3"
+          >
+          <form id="signUpForm" action="{% url 'create-application' %}" method="post" onsubmit="submitForm('signUpForm'); return false;">
+              
+            {% csrf_token %}
+            <!-- start step indicators -->
+              <div class="form-header d-flex mb-4">
+                <span class="stepIndicator">
+                  <p>Personal information</p>
+                </span>
+                <span class="stepIndicator">
+                  <p>Past Experience/Distribution:</p>
+                </span>
+                <span class="stepIndicator">
+                  <p>Feedback:</p>
+                </span>
+
+              </div>
+              <!-- end step indicators -->
+
+              <!-- step two -->
+              <div class="step">
+                <div class="application-header mb-4 align-items-center">
+                  <div class="d-flex">
+                    <div class="circle-icon bg-primary text-white">
+                      <span class="application-step-icon">2</span>
+                    </div>
+                    <div class="application-info">
+                      <h6 class="text-primary">
+                        <strong>Personal information.</strong>
+                      </h6>
+                    </div>
+                  </div>
+                  <p>Please fill in your personal information below.</p>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-md-6 first">
+                    <label for="app-first-name">First Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. John"
+                      id="app-first-name"
+                      name="app-first-name"
+                      maxlength="45"
+                      value="{{ applicant.user.first_name }}"
+                    />
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-last-name">Last Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. Doe"
+                      id="app-last-name"
+                      name="app-last-name"
+                      maxlength="45"
+                      value="{{ applicant.user.last_name }}"
+
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-email">Email:</label>
+                    <input
+                      type="text"
+                      maxlength="50"
+                      class="form-control"
+                      placeholder="eg. user@example.com"
+                      id="app-email"
+                      name="app-email"
+                      value="{{ applicant.user.email }}"
+
+                    />
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-alt-phone-number">Alternative Phone Number:</label>
+                    <input
+                      type="text"
+                      maxlength="10"
+                      class="form-control"
+                      placeholder="eg. 0712345678"
+                      id="app-alt-phone-number"
+                      name="app-alt-phone-number"
+                      value="{{ applicant.alternative_phone_number }}"
+
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-phone-number">Phone Number:</label>
+                    <input
+                      type="text"
+                      maxlength="10"
+                      class="form-control"
+                      placeholder="eg. 0712345678"
+                      id="app-phone-number"
+                      name="app-phone-number"
+                      value="{{ applicant.user.phone_number }}"
+
+                    />
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-id-number">ID Number:</label>
+                    <input
+                      type="text"
+                      maxlength="13"
+                      class="form-control"
+                      placeholder="eg. 980402XXXXXXX"
+                      id="app-id-number"
+                      name="app-id-number"
+                      value="{{ applicant.id_number }}"
+
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <label for="app-direct-phone-number">
+                      Please provide us with your direct phone number, if it may differ from your WhatsApp number:
+                    </label>
+                    <input
+                      type="text"
+                      maxlength="10"
+                      class="form-control"
+                      placeholder="eg. 0794647589"
+                      id="app-direct-phone-number"
+                      name="app-direct-phone-number"
+                      value="{{ applicant.direct_phone_number }}"
+
+                    />
+                  </div>
+                </div>
+                
+                <hr />
+                
+                <div class="application-header my-4 align-items-center">
+                  <div class="d-flex">
+                    <div class="application-info">
+                      <h6 class="text-primary">
+                        <strong>Delivery Address.</strong>
+                      </h6>
+                    </div>
+                  </div>
+                  <p class="ml-2">
+                    Please fill in your address information below.
+                  </p>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <label for="app-street-address">Street Address:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. 123 Avenue"
+                      id="app-street-address"
+                      name="app-street-address"
+                      maxlength="45"
+                      value="{{ applicant_address.street_address }}"
+
+                      
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-city">City/Town:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. Johannesburg"
+                      id="app-city"
+                      name="app-city"
+                      maxlength="45"
+                      value="{{ applicant_address.city }}"
+
+                    />
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-suburb">Suburb:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. Auckland Park"
+                      id="app-suburb"
+                      name="app-suburb"
+                      maxlength="45"
+                      value="{{ applicant_address.suburb }}"
+
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-province">Province:</label>
+                    <select
+                      class="form-control"
+                      id="app-province"
+                      name="app-province"
+                    >
+                      <option value="" selected disabled>
+                        -- Select Province --
+                      </option>
+                      <option value="" selected disabled>-- Select Province --</option>
+                      <option value="Eastern Cape" {% if applicant_address.province == 'Eastern Cape' %} selected {% endif %}>Eastern Cape</option>
+                      <option value="Free State" {% if applicant_address.province == 'Free State' %} selected {% endif %}>Free State</option>
+                      <option value="Gauteng" {% if applicant_address.province == 'Gauteng' %} selected {% endif %}>Gauteng</option>
+                      <option value="KwaZulu-Natal" {% if applicant_address.province == 'KwaZulu-Natal' %} selected {% endif %}>KwaZulu-Natal</option>
+                      <option value="Limpopo" {% if applicant_address.province == 'Limpopo' %} selected {% endif %}>Limpopo</option>
+                      <option value="Mpumalanga" {% if applicant_address.province == 'Mpumalanga' %} selected {% endif %}>Mpumalanga</option>
+                      <option value="Northern Cape" {% if applicant_address.province == 'Northern Cape' %} selected {% endif %}>Northern Cape</option>
+                      <option value="North West" {% if applicant_address.province == 'North West' %} selected {% endif %}>North West</option>
+                      <option value="Western Cape" {% if applicant_address.province == 'Western Cape' %} selected {% endif %}>Western Cape</option>
+                    </select>
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-postal-code">Postal Code:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. 2002"
+                      id="app-postal-code"
+                      name="app-postal-code"
+                      value="{{ applicant_address.postal_code }}"
+                      maxlength="4"
+                    />
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- step three -->
+              <div class="step">
+                <div class="application-header mb-4 align-items-center">
+                  <div class="d-flex">
+                    <div class="circle-icon bg-primary text-white">
+                      <span class="application-step-icon">3</span>
+                    </div>
+                    <div class="application-info">
+                      <h6 class="text-primary">
+                        <strong>Past Experience/Distribution.</strong>
+                      </h6>
+                    </div>
+                  </div>
+                  <p>Please fill in all required fields.</p>
+                </div>
+              
+                <div class="row">
+                  <div class="form-group col-md-6 first">
+                    <label for="app-experience">Do you have experience in the Prepaid Sim-card Industry?*:</label>
+                    <select class="form-control" id="app-experience" name="app-experience">
+                      <option value="" selected disabled>-- Select answer --</option>
+                    <option value="Yes" {% if applicant.has_experience == "Yes" %} selected {% endif %}>Yes</option>
+                    <option value="No" {% if applicant.has_experience == "No" %} selected {% endif %}>No</option>
+                      <option value="I was/am a driver" {% if applicant.has_experience == "I was/am a driver" %} selected {% endif %}>I was/am a driver</option>
+                    </select>
+                  </div>
+              
+                  <div class="form-group col-md-6">
+                    <label for="app-experience-details">If you do have experience please explain?*</label>
+                    <textarea
+                      class="form-control"
+                      placeholder="Please answer here..."
+                      id="app-experience-details"
+                      name="app-experience-details"
+                      maxlength="45"
+                    >{{ applicant.experience_details }}</textarea>
+                  </div>
+                  
+                </div>
+              
+                <div class="row">
+                  <div class="form-group col-md-6 first">
+                    <label for="app-previous-companies">What other starter pack distribution companies did you work for previously?*</label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Please answer here..."
+                      id="app-previous-companies"
+                      name="app-previous-companies"
+                      maxlength="45"
+                      value="{{ applicant.previous_companies }}"
+                    />
+                  </div>
+              
+                  <div class="form-group col-md-6">
+                    <label for="app-distribution-method">What is your method of distribution?*</label>
+                    <select class="form-control" id="app-distribution-method" name="distribution_method">
+                      <option value="" selected disabled>-- Select method --</option>
+                      <option value="Shop-to-Shop" {% if applicant.distribution_method == "Shop-to-Shop" %} selected {% endif %}>Shop-to-Shop</option>
+                      <option value="Promotions" {% if applicant.distribution_method == "Promotions" %} selected {% endif %}>Promotions</option>
+                      <option value="On-Demand" {% if applicant.distribution_method == "On-Demand" %} selected {% endif %}>On-Demand</option>
+                      <option value="Other" {% if applicant.distribution_method == "Other" %} selected {% endif %}>Other</option>
+                  </select>
+                  
+
+                    <div class="form-group" id="other-method-group">
+                      <label for="app-other-method">Please specify:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Please specify..."
+                        id="app-other-method"
+                        name="app-other-method"
+                        maxlength="45"
+                      value="{{ applicant.other_method }}"
+                        
+                      />
+                    </div>
+                  </div>
+
+                  
+                </div>
+              
+              
+                <div class="row">
+                  
+                  <div class="form-group col-md-6 first">
+                    <label for="app-distribution-area">Where is your area of distribution?*</label>
+                    <select class="form-control" id="app-distribution-area" name="distribution_area">
+                        <option value="" selected disabled>-- Select answer --</option>
+                        <option value="Eastern Cape" {% if applicant.distribution_area == "Eastern Cape" %} selected {% endif %}>Eastern Cape</option>
+                        <option value="Free State" {% if applicant.distribution_area == "Free State" %} selected {% endif %}>Free State</option>
+                        <option value="Gauteng" {% if applicant.distribution_area == "Gauteng" %} selected {% endif %}>Gauteng</option>
+                        <option value="KwaZulu-Natal" {% if applicant.distribution_area == "KwaZulu-Natal" %} selected {% endif %}>KwaZulu-Natal</option>
+                        <option value="Limpopo" {% if applicant.distribution_area == "Limpopo" %} selected {% endif %}>Limpopo</option>
+                        <option value="Mpumalanga" {% if applicant.distribution_area == "Mpumalanga" %} selected {% endif %}>Mpumalanga</option>
+                        <option value="Northern Cape" {% if applicant.distribution_area == "Northern Cape" %} selected {% endif %}>Northern Cape</option>
+                        <option value="North West" {% if applicant.distribution_area == "North West" %} selected {% endif %}>North West</option>
+                        <option value="Western Cape" {% if applicant.distribution_area == "Western Cape" %} selected {% endif %}>Western Cape</option>
+                    </select>
+                </div>
+                
+
+                  <div class="form-group col-md-6 first">
+                    <label for="app-rica-access">Do you have access to an existing RICA platform?*</label>
+                    <select class="form-control" id="app-rica-access" name="app-rica-access">
+                      <option value="" selected disabled>-- Select answer --</option>
+                      <option value="Yes" {% if applicant.rica_access == "Yes" %} selected {% endif %}>Yes</option>
+                      <option value="No" {% if applicant.rica_access == "No" %} selected {% endif %}>No</option>
+                    </select>
+                  </div>
+
+                </div>
+              
+                <div class="row">
+
+                  <div class="form-group col-md-6">
+                    <label for="app-required-networks">What networks do you require?*</label>
+                    <select class="form-control" id="app-required-networks" name="app-required-networks">
+                      <option value="" selected disabled>-- Select networks --</option>
+                      <option value="MTN" {% if applicant.required_networks == "MTN" %} selected {% endif %}>MTN</option>
+                      <option value="Vodacom" {% if applicant.required_networks == "Vodacom" %} selected {% endif %}>Vodacom</option>
+                      <option value="Telkom" {% if applicant.required_networks == "Telkom" %} selected {% endif %}>Telkom</option>
+                      <option value="Cell C" {% if applicant.required_networks == "Cell C" %} selected {% endif %}>Cell C</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-6 first">
+                    <label for="app-best-networks">What networks perform the best in your area?*</label>
+                    <select class="form-control" id="app-best-networks" name="app-best-networks">
+                      <option value="" selected disabled>-- Select answer --</option>
+                      <option value="MTN" {% if applicant.best_networks == "MTN" %} selected {% endif %}>MTN</option>
+                      <option value="Vodacom" {% if applicant.best_networks == "Vodacom" %} selected {% endif %}>Vodacom</option>
+                      <option value="Telkom" {% if applicant.best_networks == "Telkom" %} selected {% endif %}>Telkom</option>
+                      <option value="Cell C" {% if applicant.best_networks == "Cell C" %} selected {% endif %}>Cell C</option>
+                    </select>
+                  </div>
+                </div>
+
+                  <div class="row">
+                  
+              
+                    <div class="form-group col-md-6">
+                      <label for="app-vat-registration">If registering as a company, are you VAT registered?*</label>
+                      <select class="form-control" id="app-vat-registration" name="app-vat-registration">
+                        <option value="" selected disabled>-- Select answer --</option>
+                        <option value="Yes" {% if applicant.vat_registered == "Yes" %} selected {% endif %}>Yes</option>
+                        <option value="No" {% if applicant.vat_registered == "No" %} selected {% endif %}>No</option>
+                      </select>
+                    </div>
+                    
+                    <div class="form-group col-md-6">
+                      <label for="app-average-activations">What is your average activations per month?*</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Please answer here..."
+                        id="app-average-activations"
+                        name="app-average-activations"
+                        maxlength="45"
+                        value="{{ applicant.average_activations }}"
+                      />
+                    </div>
+                  </div>
+
+
+              </div>
+              
+
+              <!-- step four -->
+              <div class="step">
+                <div class="application-header mb-4 align-items-center">
+                  <div class="d-flex">
+                    <div class="circle-icon bg-primary text-white">
+                      <span class="application-step-icon">4</span>
+                    </div>
+                    <div class="application-info">
+                      <h6 class="text-primary"><strong>Feedback.</strong></h6>
+                    </div>
+                  </div>
+                  <p>Please fill in all required fields.</p>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-preferred-communication">What is your preferred communication?*</label>
+                    <select class="form-control" id="app-preferred-communication" name="app-preferred-communication">
+                      <option value="" selected disabled>-- Select communication method --</option>
+                      <option value="Email" {% if applicant.preferred_communication == "Email" %} selected {% endif %}>Email</option>
+                      <option value="Phone" {% if applicant.preferred_communication == "Phone" %} selected {% endif %}>Direct Phone Call</option>
+                      <option value="WhatsApp" {% if applicant.preferred_communication == "WhatsApp" %} selected {% endif %}>WhatsApp</option>
+                      <option value="SMS" {% if applicant.preferred_communication == "SMS" %} selected {% endif %}>SMS</option>
+                    </select>
+                  </div>
+                  
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-airtime-solution">Do you have an airtime solution? Like a card machine, online portal where you sell airtime upon activation?</label>
+                    <select class="form-control" id="app-airtime-solution" name="app-airtime-solution">
+                      <option value="" selected disabled>-- Select answer --</option>
+                      <option value="Yes" {% if applicant.airtime_solution == "Yes" %} selected {% endif %}>Yes</option>
+                      <option value="No" {% if applicant.airtime_solution == "No" %} selected {% endif %}>No</option>
+                    </select>
+                  </div>
+                        
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <label for="app-hear-about-us">Where did you hear about us?*:</label>
+                    <select class="form-control" id="app-hear-about-us" name="app-hear-about-us">
+                      <option value="" selected disabled>-- Select answer --</option>
+                      <option value="Friend referred me" {% if applicant.hear_about_us == "Friend referred me" %} selected {% endif %}>Friend referred me</option>
+                      <option value="Facebook" {% if applicant.hear_about_us == "Facebook" %} selected {% endif %}>Facebook</option>
+                      <option value="LinkedIn" {% if applicant.hear_about_us == "LinkedIn" %} selected {% endif %}>LinkedIn</option>
+                      <option value="Other" {% if applicant.hear_about_us == "Other" %} selected {% endif %}>Other</option>
+                    </select>
+                  </div>
+                </div>
+                
+              </div>
+
+              <hr />
+
+              <!-- start previous / next buttons -->
+              <div class="form-footer d-flex">
+                <button
+                  class="form-control btn-sm btn btn-primary-outine rounded submit p-0 mb-3"
+                  type="button"
+                  id="prevBtn"
+                  onclick="nextPrev(-1)"
+                >
+                  back
+                </button>
+                
+                <button
+                  class="form-control btn btn-primary rounded submit p-0 mb-3"
+                  type="button"
+                  id="nextBtn"
+                  onclick="nextPrev(1)"
+                >
+                  <i class="fa-solid fa-angles-right"></i>
+                </button>
+              </div>
+              <!-- end previous / next buttons -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+
+</script>
+
+
+<script src="{% static 'js/applicationView.js' %}"></script>
+

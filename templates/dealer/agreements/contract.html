@@ -1,0 +1,172 @@
+{% extends 'dealer/index_dealer.html' %}
+{% block nav_title %}Rica & Reseller Agreements - Acknowledgment{% endblock %}
+{% load static %}
+{% block content %}
+
+<form id="acknowledgmentForm" class="container mt-4">
+    
+    <div class="">
+        <a class="" href="#" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'contracts/1. BBD RICA_Reseller Agreement 20240304.pdf' %}">View contract</a>
+    </div>
+<div class="card p-2 m-3 ">
+  <div class="form-group row">
+    <div class="col">
+      <h4>Acknowledgment Section 1: Understanding of Terms</h4>
+      <p>I acknowledge that I have read, understood, and agree to the terms and conditions outlined in the Rica Agreement.</p>
+    </div>
+    <div class="col-auto">
+      <input type="checkbox" name="section_1" id="section_1" class="form-check-input">
+    </div>
+  </div>
+</div>
+
+<div class="card p-2 m-3">
+  <div class="form-group row">
+    <div class="col">
+      <h4>Acknowledgment Section 2: Consent to Data Collection</h4>
+      <p>I consent to the collection and use of my personal data as described in the Rica Agreement, and I understand how 
+        my data will be used.</p>
+    </div>
+    <div class="col-auto">
+      <input type="checkbox" name="section_2" id="section_2" class="form-check-input">
+    </div>
+  </div>
+</div>
+
+<div class="card p-2 m-3">
+  <div class="form-group row">
+    <div class="col">
+      <h4>Acknowledgment Section 3: Acceptance of Responsibilities</h4>
+      <p>I acknowledge that I have read, understood, and agree to the terms and conditions outlined in the Rica Agreement.</p>
+    </div>
+    <div class="col-auto">
+      <input type="checkbox" name="section_3" id="section_3" class="form-check-input">
+    </div>
+  </div>
+</div>
+
+<div class="card p-2 m-3">
+  <div class="form-group row">
+    <div class="col">
+      <h4>Acknowledgment Section 7: Dispute Resolution</h4>
+      <p>I acknowledge and agree to the dispute resolution process outlined in the Rica Agreement, including mediation and 
+        arbitration procedures.</p>
+    </div>
+    <div class="col-auto">
+      <input type="checkbox" name="section_4" id="section_4" class="form-check-input">
+    </div>
+  </div>
+</div>
+
+<div class="card p-2 m-3">
+  <div class="form-group row">
+    <div class="col">
+      <h4>Acknowledgment Section 5: Confidentiality Agreement</h4>
+      <p>I agree to maintain the confidentiality of all information as required by the Rica Agreement and understand the
+        consequences of unauthorized disclosure.</p>
+    </div>
+    <div class="col-auto">
+      <input type="checkbox" name="section_5" id="section_5" class="form-check-input">
+    </div>
+  </div>
+</div>
+
+<div id="submitButtonContainer" class="form-group float-right row">
+    <div class="col">
+      <button type="button" class="btn btn-primary" onclick="submitAcknowledgment()">Submit my acknowledgment</button>
+    </div>
+</div>
+</form>
+
+
+<!-- Modal -->
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pdfModalLabel">PDF Document</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe id="pdfFrame" src="" width="100%" height="500px"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="chooseBtn">Choose</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch("{% url 'acknowledgment_state' %}")
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById('section_1').checked = data.section_1;
+            document.getElementById('section_2').checked = data.section_2;
+            document.getElementById('section_3').checked = data.section_3;
+            document.getElementById('section_4').checked = data.section_4;
+            document.getElementById('section_5').checked = data.section_5;
+    
+            if (data.all_signed) {
+              document.getElementById('submitButtonContainer').style.display = 'none';
+            }
+          })
+          .catch(error => console.error('Error:', error));
+      });
+    
+      function submitAcknowledgment() {
+        const data = {
+          section_1: document.getElementById('section_1').checked,
+          section_2: document.getElementById('section_2').checked,
+          section_3: document.getElementById('section_3').checked,
+          section_4: document.getElementById('section_4').checked,
+          section_5: document.getElementById('section_5').checked,
+        };
+    
+        fetch("{% url 'acknowledgment' %}", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Acknowledgment submitted successfully.');
+            document.getElementById('submitButtonContainer').style.display = 'none';
+          } else {
+            alert('Error submitting acknowledgment.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error submitting acknowledgment.');
+        });
+      }
+
+
+  $(document).ready(function() {
+    $('#pdfModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var pdfUrl = button.data('pdf-url'); // Extract info from data-* attributes
+        var modal = $(this);
+        modal.find('#pdfFrame').attr('src', pdfUrl);
+    });
+
+    $('#chooseBtn').click(function() {
+        var contractId = 'RA-2024'; // This should be dynamically set based on the chosen contract
+        chooseContract(contractId);
+    });
+});
+
+</script>
+{% endblock %}

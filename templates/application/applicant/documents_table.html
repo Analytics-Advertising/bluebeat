@@ -1,0 +1,141 @@
+
+<div class="card">
+    <div class="mx-3 mt-2">
+    {% comment %} <button class="btn btn-primary float-right" id="verifyDocsButton">verify</button> {% endcomment %}
+    {% comment %} <button class="btn btn-primary float-right mr-2" id="updateStudentDocuments">Update Documents</button> {% endcomment %}
+
+
+    </div>
+    <div class="card-body">
+
+        <table class="table">
+            <thead>
+              <tr class="thead-dark">
+                <th scope="col" class="fs-2 ">Doc</th>
+                <th scope="col" class="fs-2 ">Type</th>
+                <th scope="col" class="fs-2 ">Date</th>
+                <th scope="col" class="fs-2 ">Status</th>
+                {% comment %} <th scope="col" class="fs-2 ">Verify</th> {% endcomment %}
+                <th scope="col" class="fs-2 ">Action</th>
+
+              </tr>
+            </thead>
+            <tbody>
+            {% for document in documents %}
+              <tr>
+                <th scope="row">
+                   <p class="text-grey-dark"> {{ document.id }}</p>
+                </th>
+               
+                <td>
+                    <p class="fs-2 text-grey-dark">
+                        {{ document.document_type.doc_type}}
+                    </p>
+                </td>
+
+                <td>
+                    <p class="fs-2 text-grey-dark">
+                        {{ document.date_created|date:"j F Y" }}
+                    </p>
+                </td>
+                {% comment %} <td>
+                    {% if  document.is_verified == False %}
+                        <span class="mt-2 badge badge-status-warning text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">Not verified</span>
+                    {% elif document.is_verified == True %}
+                        <span class="mt-2 badge badge-status-success text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">Verified</span>
+                    {% endif %}
+                </td> {% endcomment %}
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input document-checkbox" type="checkbox" value="{{ document.id }}" id="{{ document.id }}">
+                      </div>
+
+                </td>
+                <td class="d-flex">
+                    <button class="view-pdf-btn btn mr-1" data-document="{{ document.document }}">
+                    <i class="fa-solid fa-file-pdf text-warning"></i></button>
+
+                    {% if  document.document_type.doc_type  == 'Next of Kins ID Document' %}
+                     
+                     <label for="app-nok-id-number-file" class="custom-upload-label" data-toggle="tooltip" data-placement="top" title="Update Next of Kins ID Document">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                      </label>
+                      <input type="file" class="form-control custom-upload-file" id="app-nok-id-number-file" name="app-nok-id-number-file" accept="application/pdf" style="display: none;"/>
+
+                    {% elif  document.document_type.doc_type  == 'Proof of Residence' %}
+                    
+                    <label for="app-proof-of-residence-file" class="custom-upload-label" data-toggle="tooltip" data-placement="top" title="Update Proof of Residence Document">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                      </label>
+                        <input type="file" class="form-control"  id="app-proof-of-residence-file" name="app-proof-of-residence-file" accept="application/pdf" style="display: none;"/>
+                    
+                        {% elif  document.document_type.doc_type  == 'ID Number' %}
+                    
+                        <label for="app-id-number-file" class="custom-upload-label" data-toggle="tooltip" data-placement="top" title="Update ID Number">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                      </label>
+                        <input type="file" class="form-control"  id="app-id-number-file" name="app-id-number-file" accept="application/pdf" style="display: none;"/>
+                    
+                        {% elif  document.document_type.doc_type  == 'Proof of Registration' %}
+                    
+                        <label for="app-proof-of-registration-file" class="custom-upload-label" data-toggle="tooltip" data-placement="top" title="Update Proof of Registration">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                      </label>
+                        <input type="file" class="form-control"  id="app-proof-of-registration-file" name="app-proof-of-registration-file" accept="application/pdf" style="display: none;"/>                       
+                    
+                        {% elif  document.document_type.doc_type  == 'Proof of Funding' %}
+                    
+                        <label for="app-proof-of-funding-file" class="custom-upload-label" data-toggle="tooltip" data-placement="top" title="Update Proof of Funding">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                      </label>
+                        <input type="file" class="form-control"  id="app-proof-of-funding-file" name="app-proof-of-funding-file" accept="application/pdf" style="display: none;"/>
+                    
+                        {% endif %}
+
+
+                </td>
+            </tr>
+            {% endfor %}
+             
+            </tbody>
+          </table>
+
+
+    </div>
+</div>
+
+
+<script>
+
+  $(document).ready(function () {
+
+
+    const viewPdfButtons = document.querySelectorAll('.view-pdf-btn');
+    
+    // Add click event listener to each button
+    viewPdfButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Get the base64-encoded document data from the button's data attribute
+            const base64Document = button.getAttribute('data-document');
+            
+            // Convert the base64 string to a Blob object
+            const byteCharacters = atob(base64Document);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+    
+            // Create a URL for the Blob object
+            const url = URL.createObjectURL(blob);
+    
+            // Open the PDF document in a new tab
+            window.open(url, '_blank');
+        });
+    });
+    
+    })
+
+    
+</script>

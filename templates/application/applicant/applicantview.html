@@ -1,0 +1,265 @@
+{% extends 'dashboard/index_admin.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+      <!-- Applicant Card -->
+      <div class="col-sm-4 bg-white border m-1 p-3 rounded">
+        
+        <p class="fs-2">Change application status:</p>
+        {% if  applicant.status == 'Pending' %}
+            <span class="mt-2 badge badge-status-primary text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        {% elif   applicantstatus == 'Pre-Approved' %}
+            <span class="mt-2 badge badge-status-success text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        {% elif   applicant.status == 'Rejected' %}
+            <span class="mt-2 badge badge badge-status-warning text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        {% else %}
+            <span class="mt-2 badge badge badge-status-primary text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        {% endif %}
+
+       
+
+        <div class="applicant-avatar">
+            <img src="https://dentico.co.za/wp-content/uploads/2016/08/dummy-prod-1.jpg"  width="70%" class="rounded mx-auto d-block" alt="applicant-avatar">
+        </div>
+
+        <div class="applicant-information mt-2">
+        
+            <div class="d-flex mx-2 d-none" style="display:none">
+                <div>
+                    <input type="hidden" name="application-id" id="application-id" value="{{ application_id }}" />
+                    <p class="fs-2 m-0 p-0">Applicant First Name:</p>
+                    <h6 class="m-0 p-0 text-grey-dark"> {{ applicant.user.first_name }}</h6>
+                </div>
+
+                <div class="ms-auto">
+                    <p class="fs-2 m-0 p-0">Applicant Last Name:</p>
+                    <h6 class="m-0 p-0 text-grey-dark">{{ applicant.last_name }}</h6>
+                </div>
+            </div>
+            
+            <hr/>
+
+            <div class="d-flex mx-2">
+                <i class="fa-solid fa-envelope mr-2 text-primary"></i>
+                <h6 class="fs-2 text-grey-dark font-weight-light"> {{ applicant.email }}</h6>
+            </div>
+
+            <div class="d-flex mx-2 my-2">
+                <i class="fa-solid fa-phone mr-2 text-primary"></i>
+                <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.phone_number }}</h6>
+            </div>
+
+            <div class="d-flex">
+                <div class="d-flex mx-2 my-2">
+                    <i class="fa-solid fa-cake-candles mr-2 text-primary"></i>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.dob }}</h6>
+                </div>
+
+                <div class="d-flex mx-2 my-2 ms-auto">
+                    {% if profile.gender == 'Male' %}
+                        <i class="fa-solid fa-mars mr-2 text-primary"></i>
+                    {% else %}
+                        <i class="fa-solid fa-venus mr-2 text-primary"></i>
+                    {% endif %}
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.gender }}</h6>
+                </div>
+
+                
+            </div>
+
+
+            <div class="d-flex">
+                <div class="d-flex mx-2 my-2">
+                    <i class="fa-solid fa-person mr-2 text-primary"></i>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.race }}</h6>
+                </div>
+
+                <div class="d-flex mx-2 my-2 ms-auto">
+                    <i class="fa-solid fa-wheelchair mr-2 text-primary"></i>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.disability }}</h6>
+                </div>
+            </div>
+
+            <div class="mx-2 my-2">
+                <h6>Address:</h6>
+                <hr class="mb-23 p-0"/>
+                <div class="d-flex">
+                    <i class="fa-solid fa-location-dot mr-2 text-primary"></i>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.street_address }}</h6>
+                </div>
+                <div class="ml-4">
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.suburb }}</h6>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.city }}</h6>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.province }}</h6>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.code }}</h6>
+                </div>
+
+                <div class="mx-auto float-right mb-2 d-block">
+                    <button class="btn btn-success" id="approve-application">Approve</button>
+                    <button class="btn btn-danger" id="reject-application">Reject</button>
+               
+                </div>
+            </div>
+            
+
+
+
+        </div>
+      </div>
+        <!-- Applicant Card -->
+
+
+      
+        
+        <div class="col-sm-7 bg-white border m-1 p-3 rounded">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link fs-2 active border-0" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Quiz Answers</a>
+                <a class="nav-item nav-link fs-2 border-0" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Documents</a>
+            </div>
+        </nav>
+        
+
+          <div class="tab-content" id="nav-tabContent">
+
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                
+                <div class="application-header my-4 align-items-center">
+                    <h6 class="text-primary"><strong>Applicants Quiz Answers</strong></h6>
+                    <p class="fs-2">Below is the vetting quiz answers from this dealer</p>
+                </div>
+
+                <hr/>
+                
+
+               {% include './application_form.html' %}
+              
+
+            </div>
+
+
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="application-header my-4 align-items-center">
+                    <h6 class="text-primary"><strong>References</strong></h6>
+                    <p class="fs-2">{{ applicant.first_name }}'s references.</p>
+                </div>
+
+                <hr/>
+                {% if references %}
+                <div class="row">
+                    <div class="form-group col-md-6 first">
+                        <label for="reference-name">Name:</label>
+                        <input type="text" value="{{ references.name }}" disabled class="form-control" />
+                    </div>
+
+                    <!-- Relationship -->
+                    <div class="form-group col-md-6">
+                        <label for="relationship">Relationship:</label>
+                        <input type="text" value="{{ references.relationship }}" disabled class="form-control" />
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="contact-number">Contact Number:</label>
+                        <input type="text" value="{{ references.contact_number }}" disabled class="form-control" />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="email">Email:</label>
+                        <input type="text" value="{{ references.email }}" disabled class="form-control" />
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-warning" role="alert">
+                    {{ applicant.first_name }} {{ applicant.last_name }} has not yet completed the References section on the application form!
+                  </div>
+                {% endif %}
+
+
+            </div>
+
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+                {% include "./documents_table.html" %}
+
+            </div>
+
+            <div class="tab-pane fade" id="nav-emails" role="tabpanel" aria-labelledby="nav-emails-tab">
+
+                {% comment %} {% include "./emails_table.html" %} {% endcomment %}
+
+            </div>
+          
+        </div>
+
+      </div>
+      
+    </div>
+    
+  </div>
+
+  <script>
+    var csrf_token = '{{ csrf_token }}'
+    var send_status_emial = '{% url "send_status_email" %}'
+
+
+  </script>
+
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('approve-application').addEventListener('click', function() {
+            sendApprovalStatus('approved');
+        });
+        
+        document.getElementById('reject-application').addEventListener('click', function() {
+            sendApprovalStatus('rejected');
+        });
+        
+        function sendApprovalStatus(status) {
+            const applicationId = getApplicationId();  // Function to get the application ID
+
+            fetch(send_status_emial, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken()  // Ensure CSRF token is included for security
+                },
+                body: JSON.stringify({
+                    application_id: applicationId,
+                    status: status
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);  // Display response message
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while sending the email.');
+            });
+        }
+        
+        function getCSRFToken() {
+            const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            return csrftoken;
+        }
+
+        function getApplicationId() {
+            // Implement this function to get the application ID
+            // This might involve getting it from a data attribute or another part of your page
+            return document.getElementById('application-id').value;
+        }
+    });
+</script>
+
+
+{% endblock %}

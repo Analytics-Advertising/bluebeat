@@ -1,0 +1,651 @@
+{% extends 'index_home.html' %} {% load static %} {% block content %}
+<style>
+  #app-required-networks {
+      margin-bottom: 20px;
+  }
+  .form-check {
+      margin-bottom: 10px;
+  }
+  .form-check-input {
+      margin-right: 10px;
+  }
+</style>
+
+<div class="application-full">
+
+ 
+  {% comment %}
+  <div
+    class="bg order-2 order-md-2"
+    style="background-image: url({%static'images/reg_bg.jpeg'%})"
+  ></div>
+  {% endcomment %}
+  <div class="contents">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-12">
+          <div
+            class="shadow border bg-white rounded p-3"
+            style="margin-top: 200px !important"
+          >
+          <form id="signUpForm" action="{% url 'create-application' %}" method="post" onsubmit="submitForm('signUpForm'); return false;">
+              
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              <strong>Important!</strong> Please ensure you have a working email address before you fill in the form.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            {% csrf_token %}
+            <!-- start step indicators -->
+              <div class="form-header d-flex mb-4">
+                <span class="stepIndicator">
+                  <p>Personal information</p>
+                </span>
+                <span class="stepIndicator">
+                  <p>Past Experience/Distribution:</p>
+                </span>
+                <span class="stepIndicator">
+                  <p>Feedback:</p>
+                </span>
+
+              </div>
+              <!-- end step indicators -->
+
+              <!-- step two -->
+              <div class="step">
+                <div class="application-header mb-4 align-items-center">
+                  <div class="d-flex">
+                    <div class="circle-icon bg-primary text-white">
+                      <span class="application-step-icon">2</span>
+                    </div>
+                    <div class="application-info">
+                      <h6 class="text-primary">
+                        <strong>Personal information.</strong>
+                      </h6>
+                    </div>
+                  </div>
+                  <p>Please fill in your personal information below.</p>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-md-6 first">
+                    <label for="app-first-name">First Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. John"
+                      id="app-first-name"
+                      name="app-first-name"
+                      maxlength="45"
+                    />
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-last-name">Last Name:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. Doe"
+                      id="app-last-name"
+                      name="app-last-name"
+                      maxlength="45"
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-email">Email:</label>
+                    <input
+                      type="text"
+                      maxlength="50"
+                      class="form-control"
+                      placeholder="eg. user@example.com"
+                      id="app-email"
+                      name="app-email"
+                    />
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-alt-phone-number">Alternative Phone Number:</label>
+                    <input
+                      type="text"
+                      maxlength="10"
+                      class="form-control"
+                      placeholder="eg. 0712345678"
+                      id="app-alt-phone-number"
+                      name="app-alt-phone-number"
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-phone-number">Phone Number:</label>
+                    <input
+                      type="text"
+                      maxlength="10"
+                      class="form-control"
+                      placeholder="eg. 0712345678"
+                      id="app-phone-number"
+                      name="app-phone-number"
+                    />
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-id-number">ID Number:</label>
+                    <input
+                      type="text"
+                      maxlength="13"
+                      class="form-control"
+                      placeholder="eg. 980402XXXXXXX"
+                      id="app-id-number"
+                      name="app-id-number"
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <label for="app-direct-phone-number">
+                      Please provide us with your direct phone number, if it may differ from your WhatsApp number:
+                    </label>
+                    <input
+                      type="text"
+                      maxlength="10"
+                      class="form-control"
+                      placeholder="eg. 0794647589"
+                      id="app-direct-phone-number"
+                      name="app-direct-phone-number"
+                    />
+                  </div>
+                </div>
+                
+                <hr />
+                
+                <div class="application-header my-4 align-items-center">
+                  <div class="d-flex">
+                    <div class="application-info">
+                      <h6 class="text-primary">
+                        <strong>Delivery Address.</strong>
+                      </h6>
+                    </div>
+                  </div>
+                  <p class="ml-2">
+                    Please fill in your address information below.
+                  </p>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <label for="app-street-address">Street Address:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. 123 Avenue"
+                      id="app-street-address"
+                      name="app-street-address"
+                      maxlength="45"
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-city">City/Town:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. Johannesburg"
+                      id="app-city"
+                      name="app-city"
+                      maxlength="45"
+                    />
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-suburb">Suburb:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. Auckland Park"
+                      id="app-suburb"
+                      name="app-suburb"
+                      maxlength="45"
+                    />
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-province">Province:</label>
+                    <select
+                      class="form-control"
+                      id="app-province"
+                      name="app-province"
+                    >
+                      <option value="" selected disabled>
+                        -- Select Province --
+                      </option>
+                      <option value="Eastern Cape">Eastern Cape</option>
+                      <option value="Free State">Free State</option>
+                      <option value="Gauteng">Gauteng</option>
+                      <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                      <option value="Limpopo">Limpopo</option>
+                      <option value="Mpumalanga">Mpumalanga</option>
+                      <option value="Northern Cape">Northern Cape</option>
+                      <option value="North West">North West</option>
+                      <option value="Western Cape">Western Cape</option>
+                    </select>
+                  </div>
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-postal-code">Postal Code:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="eg. 2002"
+                      id="app-postal-code"
+                      name="app-postal-code"
+                      maxlength="4"
+                    />
+                  </div>
+                </div>
+                
+              </div>
+
+              <!-- step three -->
+              <div class="step">
+                <div class="application-header mb-4 align-items-center">
+                  <div class="d-flex">
+                    <div class="circle-icon bg-primary text-white">
+                      <span class="application-step-icon">3</span>
+                    </div>
+                    <div class="application-info">
+                      <h6 class="text-primary">
+                        <strong>Past Experience/Distribution.</strong>
+                      </h6>
+                    </div>
+                  </div>
+                  <p>Please fill in all required fields.</p>
+                </div>
+              
+                <div class="row">
+                  <div class="form-group col-md-6 first">
+                    <label for="app-experience">Do you have experience in the Prepaid Sim-card Industry?*:</label>
+                    <select class="form-control" id="app-experience" name="app-experience">
+                      <option value="" selected disabled>-- Select answer --</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                      <option value="I was/am a driver">I was/am a driver</option>
+                    </select>
+                  </div>
+              
+                  <div class="form-group col-md-6">
+                    <label for="app-experience-details">If you do have experience please explain?*</label>
+                    <textarea
+                      class="form-control"
+                      placeholder="Please answer here..."
+                      id="app-experience-details"
+                      name="app-experience-details"
+                      maxlength="45"
+                    ></textarea>
+                  </div>
+                  
+                </div>
+              
+                <div class="row">
+                  <div class="form-group col-md-6 first">
+                    <label for="app-previous-companies">What other starter pack distribution companies did you work for previously?*</label>
+                      <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Please answer here..."
+                      id="app-previous-companies"
+                      name="app-previous-companies"
+                      maxlength="45"
+                    />
+                  </div>
+              
+                  <div class="form-group col-md-6">
+                    <label for="app-distribution-method">What is your method of distribution?*</label>
+                    <div id="app-distribution-method">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="shop-to-shop" name="app-distribution-method" value="Shop-to-Shop">
+                            <label class="form-check-label" for="shop-to-shop">
+                                Shop-to-Shop
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="promotions" name="app-distribution-method" value="Promotions">
+                            <label class="form-check-label" for="promotions">
+                                Promotions
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="on-demand" name="app-distribution-method" value="On-Demand">
+                            <label class="form-check-label" for="on-demand">
+                                On-Demand
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="other" name="app-distribution-method" value="Other">
+                            <label class="form-check-label" for="other">
+                                Other
+                            </label>
+                        </div>
+                        <!-- Additional input field for "Other" option -->
+                        <div id="other-input" style="display:none;">
+                            <label for="other-description">Please specify:</label>
+                            <input type="text" id="other-description" name="other-description" class="form-control">
+                        </div>
+                    </div>
+                    
+
+                    <div class="form-group" id="other-method-group" style="display: none;">
+                      <label for="app-other-method">Please specify:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Please specify..."
+                        id="app-other-method"
+                        name="app-other-method"
+                        maxlength="45"
+                      />
+                    </div>
+                  </div>
+
+                  
+                </div>
+              
+              
+                <div class="row">
+                  
+                  <div class="form-group col-md-12 first">
+                    <label for="app-distribution-area">Where is your area of distribution?*</label>
+                    <div id="app-distribution-area">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="eastern-cape" name="app-distribution-area" value="Eastern Cape">
+                            <label class="form-check-label" for="eastern-cape">
+                                Eastern Cape
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="free-state" name="app-distribution-area" value="Free State">
+                            <label class="form-check-label" for="free-state">
+                                Free State
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="gauteng" name="app-distribution-area" value="Gauteng">
+                            <label class="form-check-label" for="gauteng">
+                                Gauteng
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="kzn" name="app-distribution-area" value="KwaZulu-Natal">
+                            <label class="form-check-label" for="kzn">
+                                KwaZulu-Natal
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="limpopo" name="app-distribution-area" value="Limpopo">
+                            <label class="form-check-label" for="limpopo">
+                                Limpopo
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="mpumalanga" name="app-distribution-area" value="Mpumalanga">
+                            <label class="form-check-label" for="mpumalanga">
+                                Mpumalanga
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="northern-cape" name="app-distribution-area" value="Northern Cape">
+                            <label class="form-check-label" for="northern-cape">
+                                Northern Cape
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="north-west" name="app-distribution-area" value="North West">
+                            <label class="form-check-label" for="north-west">
+                                North West
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="western-cape" name="app-distribution-area" value="Western Cape">
+                            <label class="form-check-label" for="western-cape">
+                                Western Cape
+                            </label>
+                        </div>
+                    </div>
+
+                  </div>
+
+                 
+
+                </div>
+              
+                <div class="row">
+
+                <div class="form-group col-md-12 first">
+                  <label for="app-rica-access">Do you have access to an existing RICA platform?*</label>
+                  <select class="form-control" id="app-rica-access" name="app-rica-access">
+                    <option value="" selected disabled>-- Select answer --</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+
+                
+                <div class="row">
+
+                  <div class="form-group col-md-6">
+                    <label for="app-required-networks">What networks do you require?*</label>
+                    <div id="app-required-networks">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="mtn" name="app-required-networks" value="MTN">
+                            <label class="form-check-label" for="mtn">
+                                MTN
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="vodacom" name="app-required-networks" value="Vodacom">
+                            <label class="form-check-label" for="vodacom">
+                                Vodacom
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="telkom" name="app-required-networks" value="Telkom">
+                            <label class="form-check-label" for="telkom">
+                                Telkom
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="cell-c" name="app-required-networks" value="Cell C">
+                            <label class="form-check-label" for="cell-c">
+                                Cell C
+                            </label>
+                        </div>
+                    </div>
+                    
+                  </div>
+
+                  <div class="form-group col-md-6 first">
+                    <label for="app-best-networks">What networks perform the best in your area?*</label>
+                    <div id="app-best-networks">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="best-mtn" name="app-best-networks" value="MTN">
+                            <label class="form-check-label" for="best-mtn">
+                                MTN
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="best-vodacom" name="app-best-networks" value="Vodacom">
+                            <label class="form-check-label" for="best-vodacom">
+                                Vodacom
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="best-telkom" name="app-best-networks" value="Telkom">
+                            <label class="form-check-label" for="best-telkom">
+                                Telkom
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="best-cell-c" name="app-best-networks" value="Cell C">
+                            <label class="form-check-label" for="best-cell-c">
+                                Cell C
+                            </label>
+                        </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                  <div class="row">
+                  
+              
+                    <div class="form-group col-md-6">
+                      <label for="app-vat-registration">If registering as a company, are you VAT registered?*</label>
+                      <select class="form-control" id="app-vat-registration" name="app-vat-registration">
+                        <option value="" selected disabled>-- Select answer --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </div>
+                    
+                    <div class="form-group col-md-6">
+                      <label for="app-average-activations">What is your average activations per month?*</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Please answer here..."
+                        id="app-average-activations"
+                        name="app-average-activations"
+                        maxlength="45"
+                      />
+                    </div>
+                  </div>
+
+
+              </div>
+              
+
+              <!-- step four -->
+              <div class="step">
+                <div class="application-header mb-4 align-items-center">
+                  <div class="d-flex">
+                    <div class="circle-icon bg-primary text-white">
+                      <span class="application-step-icon">4</span>
+                    </div>
+                    <div class="application-info">
+                      <h6 class="text-primary"><strong>Feedback.</strong></h6>
+                    </div>
+                  </div>
+                  <p>Please fill in all required fields.</p>
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="app-preferred-communication">What is your preferred communication?*</label>
+                    <div id="app-preferred-communication">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="pref-email" name="app-preferred-communication" value="Email">
+                            <label class="form-check-label" for="pref-email">
+                                Email
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="pref-phone" name="app-preferred-communication" value="Phone">
+                            <label class="form-check-label" for="pref-phone">
+                                Direct Phone Call
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="pref-whatsapp" name="app-preferred-communication" value="WhatsApp">
+                            <label class="form-check-label" for="pref-whatsapp">
+                                WhatsApp
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="pref-sms" name="app-preferred-communication" value="SMS">
+                            <label class="form-check-label" for="pref-sms">
+                                SMS
+                            </label>
+                        </div>
+                    </div>
+
+                  </div>
+                  
+                
+                  <div class="form-group col-md-6">
+                    <label for="app-airtime-solution">Do you have an airtime solution? Like a card machine, online portal where you sell airtime upon activation?</label>
+                    <select class="form-control" id="app-airtime-solution" name="app-airtime-solution">
+                      <option value="" selected disabled>-- Select answer --</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                        
+                </div>
+
+                <div class="row">
+                  <div class="form-group col-md-12">
+                    <label for="app-hear-about-us">Where did you hear about us?*:</label>
+                    <select class="form-control" id="app-hear-about-us" name="app-hear-about-us">
+                      <option value="" selected disabled>-- Select answer --</option>
+                      <option value="Friend referred me">Friend referred me</option>
+                      <option value="Facebook">Facebook</option>
+                      <option value="LinkedIn">LinkedIn</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+                
+              </div>
+
+              <hr />
+
+              <!-- start previous / next buttons -->
+              <div class="form-footer d-flex">
+                <button
+                  class="form-control btn-sm btn btn-primary-outine rounded submit p-0 mb-3"
+                  type="button"
+                  id="prevBtn"
+                  onclick="nextPrev(-1)"
+                >
+                  <i class="fa-solid fa-angles-left"></i>
+                </button>
+                
+                <button
+                  class="form-control btn btn-primary rounded submit p-0 mb-3"
+                  type="button"
+                  id="nextBtn"
+                  onclick="nextPrev(1)"
+                >
+                  <i class="fa-solid fa-angles-right"></i>
+                </button>
+              </div>
+              <!-- end previous / next buttons -->
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+
+</script>
+
+
+<script src="{% static 'js/application.js' %}"></script>
+
+{% endblock %}
