@@ -18,6 +18,7 @@ db.sqlite3
 # Virtual environments
 venv/
 env/
+.env
 .mupo/
 .mypo/
 .mopo/
