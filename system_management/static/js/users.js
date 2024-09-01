@@ -67,12 +67,23 @@ function registerNewUser() {
     });
 }
 
-
 function viewUser(userId) {
-    // Implement the view user functionality here
-    alert("Viewing user with ID: " + userId);
-    // Redirect to view user page or show user details in a modal
-}
+    var url = get_user_details_url.replace('/0/', '/' + userId + '/'); // Replace the placeholder ID with the actual userId
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+            $('#userFirstName').text(data.first_name);
+            $('#userLastName').text(data.last_name);
+            $('#userEmail').text(data.email);
+            $('#userModal').modal('show');
+        },
+        error: function(error) {
+            console.log("Error:", error);
+        }
+    });
+  }
+
 
 function deactivateUser(userId) {
     Swal.fire({

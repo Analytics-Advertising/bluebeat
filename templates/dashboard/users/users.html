@@ -1,4 +1,5 @@
 {% extends 'dashboard/index_admin.html' %}
+{% load static %} 
 
 {% block nav_title %}User Management{% endblock %}
 {% block content %}
@@ -19,14 +20,28 @@
         <p>List of all users</p>
       </div>
   
-      {% comment %} {% include "./applications_table.html" %} {% endcomment %}
+      {% include "./users_table.html" %}
     </div>
   </div>
   
   
   <script>
     var csrf_token = '{{ csrf_token }}'
+    var register_user_url = '{% url "register-user" %}'
+    var deactivate_user_url = '{% url "deactivate-user" %}'
+    var get_user_details_url = '{% url "get_user_details" 0 %}'; // Add a placeholder ID
+
   
+
+    // Example to close the modal manually
+  function closeModal() {
+    $('#userModal').modal('hide');
+  }
+
   </script>
+
+  <script src="{% static 'js/users.js' %}"></script>
+
+
   
 {% endblock %}

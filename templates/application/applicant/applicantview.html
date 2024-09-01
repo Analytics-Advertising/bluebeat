@@ -8,20 +8,62 @@
       <!-- Applicant Card -->
       <div class="col-sm-4 bg-white border m-1 p-3 rounded">
         
-        <p class="fs-2">Change application status:</p>
+        {% comment %} <p class="fs-2">Change application status:</p> {% endcomment %}
+        
+        
         {% if  applicant.status == 'Pending' %}
-            <span class="mt-2 badge badge-status-primary text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
-        {% elif   applicantstatus == 'Pre-Approved' %}
-            <span class="mt-2 badge badge-status-success text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
-        {% elif   applicant.status == 'Rejected' %}
-            <span class="mt-2 badge badge badge-status-warning text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
-        {% else %}
-            <span class="mt-2 badge badge badge-status-primary text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        <span class="mt-2 badge badge-status-primary text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        {% elif applicant.status == 'Approved' %}
+        <span class="mt-2 badge badge-status-success text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        {% elif applicant.status == 'Rejected' %}
+        <span class="mt-2 badge badge-status-warning text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        {% elif applicant.status == 'Pre-Approved' %}
+        <span class="mt-2 badge badge-warning text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        {% elif applicant.status == 'In Progress' %}
+        <span class="mt-2 badge badge-info text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
+        {% elif applicant.status == 'Completed' %}
+        <span class="mt-2 badge badge-secondary text-white font-weight-normal px-4 py-2 rounded-pill letter-spacing-1">{{  applicant.status }}</span>
         {% endif %}
-
+      
+        
+        <a data-toggle="modal" data-target="#changeStatusModal"class="d-none pointer d-sm-inline-block btn  btn-sm shadow-sm"><i class="fa fa-arrows-rotate fa-sm text-white-50"></i> Change Status</a>
        
 
-        <div class="applicant-avatar">
+<!-- Change Status Modal -->
+<div class="modal fade" id="changeStatusModal" tabindex="-1" role="dialog" aria-labelledby="changeStatusModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeStatusModalLabel">Change Application Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="changeStatusForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="status">New Status</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="Approved" {% if applicant.status == 'Approved' %}selected{% endif %}>Approved</option>
+                            <option value="Rejected" {% if applicant.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                            <option value="Pre-Approved" {% if applicant.status == 'Pre-Approved' %}selected{% endif %}>Pre-Approved</option>
+                            <option value="Pending" {% if applicant.status == 'Pending' %}selected{% endif %}>Pending</option>
+                            <option value="In Progress" {% if applicant.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                            <option value="Completed" {% if applicant.status == 'Completed' %}selected{% endif %}>Completed</option>
+                        </select>
+                    </div>
+                   
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+        <div class="applicant-avatar mt-4">
             <img src="https://dentico.co.za/wp-content/uploads/2016/08/dummy-prod-1.jpg"  width="70%" class="rounded mx-auto d-block" alt="applicant-avatar">
         </div>
 
@@ -36,7 +78,7 @@
 
                 <div class="ms-auto">
                     <p class="fs-2 m-0 p-0">Applicant Last Name:</p>
-                    <h6 class="m-0 p-0 text-grey-dark">{{ applicant.last_name }}</h6>
+                    <h6 class="m-0 p-0 text-grey-dark">{{ applicant.user.last_name }}</h6>
                 </div>
             </div>
             
@@ -44,45 +86,14 @@
 
             <div class="d-flex mx-2">
                 <i class="fa-solid fa-envelope mr-2 text-primary"></i>
-                <h6 class="fs-2 text-grey-dark font-weight-light"> {{ applicant.email }}</h6>
+                <h6 class="fs-2 text-grey-dark font-weight-light"> {{ applicant.user.email }}</h6>
             </div>
 
             <div class="d-flex mx-2 my-2">
                 <i class="fa-solid fa-phone mr-2 text-primary"></i>
-                <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.phone_number }}</h6>
+                <h6 class="fs-2 text-grey-dark font-weight-light"> {{ applicant.user.phone_number }}</h6>
             </div>
-
-            <div class="d-flex">
-                <div class="d-flex mx-2 my-2">
-                    <i class="fa-solid fa-cake-candles mr-2 text-primary"></i>
-                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.dob }}</h6>
-                </div>
-
-                <div class="d-flex mx-2 my-2 ms-auto">
-                    {% if profile.gender == 'Male' %}
-                        <i class="fa-solid fa-mars mr-2 text-primary"></i>
-                    {% else %}
-                        <i class="fa-solid fa-venus mr-2 text-primary"></i>
-                    {% endif %}
-                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.gender }}</h6>
-                </div>
-
-                
-            </div>
-
-
-            <div class="d-flex">
-                <div class="d-flex mx-2 my-2">
-                    <i class="fa-solid fa-person mr-2 text-primary"></i>
-                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.race }}</h6>
-                </div>
-
-                <div class="d-flex mx-2 my-2 ms-auto">
-                    <i class="fa-solid fa-wheelchair mr-2 text-primary"></i>
-                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.disability }}</h6>
-                </div>
-            </div>
-
+            
             <div class="mx-2 my-2">
                 <h6>Address:</h6>
                 <hr class="mb-23 p-0"/>
@@ -91,17 +102,18 @@
                     <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.street_address }}</h6>
                 </div>
                 <div class="ml-4">
-                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.suburb }}</h6>
-                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.city }}</h6>
-                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.province }}</h6>
-                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ profile.code }}</h6>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ applicant_address.street_address }}</h6>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ applicant_address.suburb }}</h6>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ applicant_address.city }}</h6>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ applicant_address.province }}</h6>
+                    <h6 class="fs-2 text-grey-dark font-weight-light"> {{ applicant_address.postal_code }}</h6>
                 </div>
 
-                <div class="mx-auto float-right mb-2 d-block">
+                {% comment %} <div class="mx-auto d-none float-right mb-2 d-block">
                     <button class="btn btn-success" id="approve-application">Approve</button>
                     <button class="btn btn-danger" id="reject-application">Reject</button>
                
-                </div>
+                </div> {% endcomment %}
             </div>
             
 
@@ -206,6 +218,7 @@
   <script>
     var csrf_token = '{{ csrf_token }}'
     var send_status_emial = '{% url "send_status_email" %}'
+    var change_application_status = '{% url "change_application_status" %}'
 
 
   </script>
@@ -215,6 +228,76 @@
 
 
   <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const changeStatusForm = document.getElementById('changeStatusForm');
+    
+        changeStatusForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+    
+            // Get the application ID and the new status from the form
+            const applicationId = '{{ applicant.id }}'; // Make sure this ID is available in your template
+            const status = document.getElementById('status').value;
+    
+            // Prepare data to send
+            const data = {
+                application_id: applicationId,
+                status: status
+            };
+    
+            // Send AJAX request to the backend
+            fetch(change_application_status, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token for Django
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Handle successful response
+                if (data.message === 'Status updated successfully') {
+                    // Show a success alert using SweetAlert
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Status has been updated successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Optionally reload the page or close the modal
+                        location.reload(); // Reload the page to see the updated status
+                    });
+                } else {
+                    // Handle error response
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to update status.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(error => {
+                // Handle network errors
+                console.error('There was a problem with the fetch operation:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An unexpected error occurred.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        });
+    });
+
+
+
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('approve-application').addEventListener('click', function() {
             sendApprovalStatus('approved');

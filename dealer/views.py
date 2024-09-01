@@ -1,6 +1,7 @@
 import json
 import os
 from django.shortcuts import render
+from system_management.sendsms import new_account_sms
 from system_management.sendmail import new_account
 from system_management.models import User
 from .models import Address, Application, ContractAcknowledgement, DealerCommercial, CommercialSchedule
@@ -105,7 +106,9 @@ def submit_application(request):
 
                 # Create Application instance
                 application_instance = Application.objects.create(**application_data)
-                new_account( user.email, user.first_name, password, url )
+                # new_account( user.email, user.first_name, password, url )
+                message_body = f"Dear {user.first_name}, \n\nThank you for submitting your application to BlueBeat Digital. \n\nYour password is {password} and your login email is {user.email}. \n\nPlease login to {url} to complete your application."
+                new_account_sms(user.phone_number, message_body)
 
 
                 # Return success response

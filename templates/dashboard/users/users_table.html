@@ -1,0 +1,119 @@
+
+<div class="card">
+    <div class="mx-3 mt-2">
+    <button class="btn btn-primary float-right mr-2" data-toggle="modal" data-target="#addUserModal">Add New User</button>
+
+
+
+    </div>
+    <div class="card-body">
+
+        <table class="table"  id="dataTable" class="table table-striped" style="width:100%">
+            <thead>
+              <tr class="thead-dark">
+                <th scope="col" class="fs-2 ">First Name</th>
+                <th scope="col" class="fs-2 ">Last Name</th>
+                <th scope="col" class="fs-2 ">Email</th>
+                <th scope="col" class="fs-2 ">User Type</th>
+                <th scope="col" class="fs-2 ">Last Login</th>
+                <th scope="col" class="fs-2 ">Status</th>
+                <th scope="col" class="fs-2 ">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+              <tr>
+                <th>
+                    <p class="fs-2 text-grey-dark">{{ user.first_name }}</p>
+                </th>
+                <td>
+                    <p class="fs-2 text-grey-dark">{{ user.last_name }}</p>
+                </td>
+                <td>
+                    <p class="fs-2 text-grey-dark">{{ user.email }}</p>
+                </td>
+                <td>
+                    <p class="fs-2 text-grey-dark">{{ user.user_type.name }}</p>
+                </td>
+                <td>
+                    <p class="fs-2 text-grey-dark">{{ user.last_login }}</p>
+                </td>
+                <td>
+                    <p class="fs-2 text-grey-dark">{{ user.is_active }}</p>
+                </td>
+                <td class="d-flex">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Actions
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="actionDropdown">
+                            <a class="dropdown-item" href="#" onclick="viewUser('{{ user.id }}')">View</a>
+                            <a class="dropdown-item" href="#" onclick="deactivateUser('{{ user.id }}')">Deactivate</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade application-full" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body contents">
+                <form method="post" id="signUpForm">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="form-group col-md-6 first">
+                            <label for="firstName">First Name:</label>
+                            <input type="text" class="form-control" placeholder="first name..." id="first-name" name="first-name" maxlength="45"/>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="lastName">Last name:</label>
+                            <input type="text" class="form-control" placeholder="last name..." id="last-name" name="last-name" maxlength="45"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="email">Email address:</label>
+                            <input type="email" class="form-control" placeholder="Your email address..." id="email" name="email" maxlength="45"/>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="contacNumber">Phone Number</label>
+                            <input type="text" maxlength="10" class="form-control" placeholder="eg. 0793456789" id="PhoneNumber" name="PhoneNumber"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="userType">User Type</label>
+                            <select class="form-control" id="user-type" name="user-type">
+                                {% for user_type in user_types %}
+                                    <option value="{{ user_type.id }}">{{ user_type.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="registerNewUser()">Add User</button>
+            </div>
+        </div>
+    </div>
+</div>
