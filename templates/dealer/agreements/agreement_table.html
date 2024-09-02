@@ -78,9 +78,12 @@
                             </button>
                             <div class="dropdown-menu" aria-labelledby="actionDropdown">
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'contracts/1. BBD RICA_Reseller Agreement 20240304.pdf' %}">View contract</a>
-                                <a class="dropdown-item" href="{% url 'contract' %}">view & sign contract</a>
-                                <a class="dropdown-item" href="#" id="sign-now-button">Sign Now</a>
-                                
+                                <a class="dropdown-item" href="{% url 'contract' %}">view & acknowledge Ts & Cs</a>
+                               {% if is_contract_signed %}
+
+                               {% else %}
+                               <a class="dropdown-item" href="#" id="sign-now-button">Sign Now</a>
+                               {% endif %}
                                 
 
 
