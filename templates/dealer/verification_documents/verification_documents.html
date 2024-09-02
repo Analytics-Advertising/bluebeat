@@ -38,9 +38,7 @@
   .document-card a:hover {
       text-decoration: underline;
   }
-
-
-  .file-input__input {
+  .photo-input__input {
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -49,7 +47,7 @@
     z-index: -1;
   }
   
-  .file-input__label {
+  .photo-input__label {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -57,15 +55,9 @@
     font-size: 14px;
     font-weight: 600;
     color: #fff;
-    font-size: 14px;
     padding: 10px 12px;
     background-color: #1F9CD8;
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
-  }
-  
-  .file-input__label svg {
-    height: 16px;
-    margin-right: 4px;
   }
   
   </style>
@@ -175,24 +167,23 @@
             </p>
           </div>
           <div class="col-md-3 d-flex align-items-center">
-            <div class="file-input">
+            <div class="photo-input">
               <input
                 type="file"
-                 name="live_photo"
-                    id="live_photo"
-                    accept="image/*"
-                    capture="environment" 
-                class="file-input__input"
+                name="live-photo"
+                id="live-photo"
+                class="photo-input__input"
+                accept="image/*"
+                capture="environment"
               />
-              <label class="file-input__label" for="file-input">
-                <i class="fas fa-camera solid mr-2"></i>
-                <span>Take a picture</span></label
-              >
+              <label class="photo-input__label" for="live-photo">
+                <i class="fas fa-camera"></i>
+                <span>Take a picture</span>
+              </label>
             </div>
           </div>
         </div>
       </div> 
-      
       
 
       
