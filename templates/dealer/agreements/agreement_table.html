@@ -7,7 +7,12 @@
                 <tr class="thead-dark">
                     <th scope="col" class="fs-2">Contract</th>
                     <th scope="col" class="fs-2">Date Signed</th>
-                    <th scope="col" class="fs-2">status</th>
+                    <th scope="col" class="fs-2">T's & C's</th>
+                    <th scope="col" class="fs-2">Contract</th>
+                    {% if is_contract_signed %}
+                    <th scope="col" class="fs-2">Signed Contract</th>
+            
+                    {% endif %}
                     <th scope="col" class="fs-2">Action</th>
                 </tr>
             </thead>
@@ -36,12 +41,36 @@
                     <td>
                         <span class="badge {% if all_signed %}badge-success{% else %}badge-danger{% endif %}">
                             {% if all_signed %}
-                                Signed
+                            acknowledged
                             {% else %}
-                                Not Signed
+                                Not acknowledged
                             {% endif %}
                         </span>
                     </td>
+                    <td>
+                        <span class="badge {% if is_contract_signed %}badge-success{% else %}badge-danger{% endif %}">
+                            {% if all_signed %}
+                            Signed
+                            {% else %}
+                                Not signed
+                            {% endif %}
+                        </span>
+                    </td>
+                    
+                    <td>
+                        {% for document in signed_documents %}
+                        <li>
+                            <a href="{% url 'view-signed-document' document.id %}">
+                                {% comment %} {{ document.name }} (Signed on {{ document.date_signed }}) {% endcomment %}
+                                <i class="fas fa-eye"></i>
+                                {% comment %} shorten the document name {% endcomment %}
+                                {{ document.name|truncatechars:20 }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </td>
+
+                    
                     <td class="d-flex">
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle bg-white text-primary border-0" type="button" id="actionDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,13 +80,8 @@
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'contracts/1. BBD RICA_Reseller Agreement 20240304.pdf' %}">View contract</a>
                                 <a class="dropdown-item" href="{% url 'contract' %}">view & sign contract</a>
                                 <a class="dropdown-item" href="#" id="sign-now-button">Sign Now</a>
-                                {% for document in signed_documents %}
-                                <li>
-                                    <a href="{% url 'view-signed-document' document.id %}">
-                                        {{ document.name }} (Signed on {{ document.date_signed }})
-                                    </a>
-                                </li>
-                            {% endfor %}
+                                
+                                
 
 
                             </div>
@@ -140,15 +164,36 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        Swal.fire('Signed!', 'Your document has been signed.', 'success');
+                        Swal.fire({
+                            title: 'Signed!',
+                            text: data.message,
+                            icon: 'success',
+                            timer: 3000,  // Display for 5 seconds
+                            timerProgressBar: true
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     } else {
-                        Swal.fire('Error!', 'There was an error signing your document.', 'error');
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.error,
+                            icon: 'error',
+                            timer: 3000,  // Display for 5 seconds
+                            timerProgressBar: true
+                        });
                     }
                 })
                 .catch(error => {
-                    Swal.fire('Error!', 'There was an error signing your document.', 'error');
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There was an error signing your document.',
+                        icon: 'error',
+                        timer: 3000,  // Display for 5 seconds
+                        timerProgressBar: true
+                    });
                 });
             }
+            
         });
     
    

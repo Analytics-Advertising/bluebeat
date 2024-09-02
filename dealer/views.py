@@ -181,11 +181,14 @@ def agreements(request):
         all_signed = False
 
     signed_documents = SignedContract.objects.filter(dealer=request.user)
+
+    is_contract_signed = SignedContract.objects.filter(dealer=request.user, is_signed=True).exists()
     
     context = {
         'all_signed': all_signed,
         'date_signed': acknowledgment.date_acknowledged if all_signed else None,
-        'signed_documents': signed_documents
+        'signed_documents': signed_documents,
+        'is_contract_signed': is_contract_signed
     }
     
     return render(request, 'dealer/agreements/agreements.html', context)
@@ -308,7 +311,25 @@ def sign_document(request):
         document_path = data.get("document_path")
         if not document_path:
             return JsonResponse({"success": False, "error": "Document path is missing."})
-
+        
+        # check if user has read terms and conditions
+        try:
+            acknowledgment = ContractAcknowledgement.objects.get(dealer=request.user)
+            all_signed = (
+                acknowledgment.section_1 and
+                acknowledgment.section_2 and
+                acknowledgment.section_3 and
+                acknowledgment.section_4 and
+                acknowledgment.section_5
+            )
+            if not all_signed:
+                return JsonResponse({"success": False, "error": "Please read and accept the terms and conditions."})
+        except ContractAcknowledgement.DoesNotExist:
+            all_signed = False
+            return JsonResponse({"success": False, "error": "Please read and accept the terms and conditions."})
+        
+            
+        print(all_signed)
         try:
             # Extract user details
             first_name = request.user.first_name
