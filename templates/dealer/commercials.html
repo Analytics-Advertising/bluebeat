@@ -6,21 +6,30 @@
 
 {% if has_commercial %}
 
-
 <div class="col-md-4">
-    <h4 class="text-primary">Your commercial Schedule A1</h4>
+    
     <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
         <div>
-            {% comment %} <p class="fs-2 text-secondary">commercial Schedule</p> {% endcomment %}
-            {% for commercial in has_commercial %}
-            {% comment %} <h3 class="text-secondary"><strong>{{ commercial.commercial_schedule.name }}</strong></h3> {% endcomment %}
-            {% endfor %}
+            <p class="fs-2 text-secondary">commercial Schedule</p>
+            {% comment %} {% for commercial in has_commercial %} {% endcomment %}
+            <h3 class="text-secondary"><strong>{{ has_commercial.commercial_schedule.name }}</strong></h3>
+            {% comment %} {% endfor %} {% endcomment %}
         </div>
         <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
             <i class="fa-solid fa-file-lines"></i>
         </div>
         <div class="position-absolute" style="bottom: 10px; right: 10px;">
+           
+            {% if has_commercial.commercial_schedule.name == 'Commercial Schedule A1' %}
             <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.1.pdf' %}" data-schedule-name="Commercial Schedule A1"></i>
+            {% elif has_commercial.commercial_schedule.name == 'Commercial Schedule A2' %}
+            <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.2.pdf' %}" data-schedule-name="Commercial Schedule A2"></i>
+            {% elif has_commercial.commercial_schedule.name == 'Commercial Schedule B1' %}
+            <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.1.pdf' %}" data-schedule-name="Commercial Schedule B1"></i>
+            {% elif has_commercial.commercial_schedule.name == 'Commercial Schedule B2' %}
+            <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.2.pdf' %}" data-schedule-name="Commercial Schedule B2"></i>
+            {% endif %}
+
         </div>
     </div>
 </div>
@@ -28,6 +37,7 @@
 {% else %}
 
 <div class="container-fluid px-4">
+    
     <div class="alert alert-warning alert-dismissible text-center fade show my-3" role="alert">
         <p class="text-dark"><strong>{{ user.first_name }}</strong>, to fully access the dealer dashboard and complete your Reseller and Rica  of Agreement,
              kindly select a commercial schedule below.
@@ -39,69 +49,75 @@
     
 
     <div class="row g-3 my-2">
-
-        <div class="col-md-4">
-            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
-                <div>
-                    <p class="fs-2 text-secondary">commercial Schedule</p>
-                    <h3 class="text-secondary"><strong>A1</strong></h3>
-                </div>
-                <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
-                    <i class="fa-solid fa-file-lines"></i>
-                </div>
-                <div class="position-absolute" style="bottom: 10px; right: 10px;">
-                    <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.1.pdf' %}" data-schedule-name="Commercial Schedule A1"></i>
-                </div>
-            </div>
-        </div>
-        
-
-        <div class="col-md-4">
-            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
-                <div>
-                    <p class="fs-2 text-secondary">commercial Schedule</p>
-                    <h3 class="text-secondary"><strong>A2</strong></h3>
-                </div>
-                <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
-                    <i class="fa-solid fa-file-lines"></i>
-                </div>
-                <div class="position-absolute" style="bottom: 10px; right: 10px;">
-                    <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.2.pdf' %}" data-schedule-name="Commercial Schedule A2"></i>
+        {% if is_vat_registered == 'No' %}
+            <div class="col-md-4">
+                <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
+                    <div>
+                        <p class="fs-2 text-secondary">Commercial Schedule</p>
+                        <h3 class="text-secondary"><strong>A1</strong></h3>
+                    </div>
+                    <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                        <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.1.pdf' %}" data-schedule-name="Commercial Schedule A1"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
-                <div>
-                    <p class="fs-2 text-secondary">commercial Schedule</p>
-                    <h3 class="text-secondary"><strong>B1</strong></h3>
-                </div>
-                <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
-                    <i class="fa-solid fa-file-lines"></i>
-                </div>
-                <div class="position-absolute" style="bottom: 10px; right: 10px;">
-                    <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.1.pdf' %}" data-schedule-name="Commercial Schedule B1"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mt-4">
-            <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
-                <div>
-                    <p class="fs-2 text-secondary">commercial Schedule</p>
-                    <h3 class="text-secondary"><strong>B2</strong></h3>
-                </div>
-                <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
-                    <i class="fa-solid fa-file-lines"></i>
-                </div>
-                <div class="position-absolute" style="bottom: 10px; right: 10px;">
-                    <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.2.pdf' %}" data-schedule-name="Commercial Schedule B2"></i>
+        {% endif %}
+    
+        {% if is_vat_registered == 'Yes' %}
+            <div class="col-md-4">
+                <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
+                    <div>
+                        <p class="fs-2 text-secondary">Commercial Schedule</p>
+                        <h3 class="text-secondary"><strong>A2</strong></h3>
+                    </div>
+                    <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                        <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.2.pdf' %}" data-schedule-name="Commercial Schedule A2"></i>
+                    </div>
                 </div>
             </div>
-        </div>
-
+        {% endif %}
+    
+        {% if is_vat_registered == 'No' %}
+            <div class="col-md-4">
+                <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
+                    <div>
+                        <p class="fs-2 text-secondary">Commercial Schedule</p>
+                        <h3 class="text-secondary"><strong>B1</strong></h3>
+                    </div>
+                    <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                        <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.1.pdf' %}" data-schedule-name="Commercial Schedule B1"></i>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    
+        {% if is_vat_registered == 'Yes' %}
+            <div class="col-md-4">
+                <div class="p-3 bg-white border d-flex justify-content-around rounded opal-custom-card position-relative">
+                    <div>
+                        <p class="fs-2 text-secondary">Commercial Schedule</p>
+                        <h3 class="text-secondary"><strong>B2</strong></h3>
+                    </div>
+                    <div class="widgets-icons-2 rounded-circle bg-secondary text-white">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                        <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.2.pdf' %}" data-schedule-name="Commercial Schedule B2"></i>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
+    
 </div>
 
 {% endif %}

@@ -25,11 +25,20 @@ def dashboard(request):
 
 
 def commercials(request):
-    has_commercial = DealerCommercial.objects.select_related('dealer', 'commercial_schedule').all()
+    try:
+        has_commercial = DealerCommercial.objects.get(dealer=request.user)
+    except DealerCommercial.DoesNotExist:
+        has_commercial = None
+
+    # check if vat registered is true in application model
+    is_vat_registered = Application.objects.get(user=request.user).vat_registered
+
     
     print(has_commercial)
+
     context = {
-        'has_commercial': has_commercial
+        'has_commercial': has_commercial,
+        'is_vat_registered': is_vat_registered
     }
     return render(request, 'dealer/commercials.html', context)
 
