@@ -230,6 +230,7 @@
       var idNumberFile = document.getElementById('id_document').files[0];
       var proofOfBankAccount = document.getElementById('proof_of_bank_account').files[0];
       var proofOfResidenceFile = document.getElementById('app-proof-of-residence-file').files[0];
+      var livePhotoFile = document.getElementById('live-photo').files[0];
 
 
       
@@ -238,14 +239,16 @@
       var idNumberBase64 = getFileAsBase64(idNumberFile);
       var proofOfBankAccountBase64 = getFileAsBase64(proofOfBankAccount);
       var proofOfResidenceBase64 = getFileAsBase64(proofOfResidenceFile);
+      var livePhotoBase64 = getFileAsBase64(livePhotoFile);
 
-      Promise.all([idNumberBase64, proofOfBankAccountBase64, proofOfResidenceBase64])
+      Promise.all([idNumberBase64, proofOfBankAccountBase64, proofOfResidenceBase64, livePhotoBase64])
       .then(values => {
           // Send base64 data to server via AJAX
           var data = {
               idNumber: values[0],
               proofOfBankAccount: values[1],
               proofOfResidence: values[2],
+              livePhoto: values[3],
               'csrfmiddlewaretoken': csrf_token
 
           };

@@ -265,13 +265,14 @@ def upload_documents(request):
             proof_of_residence_base64 = request.POST.get('proofOfResidence')
             nok_id_number_base64 = request.POST.get('nokIdNumber')
             proof_of_funding_base64 = request.POST.get('proofOfFunding')
-
+            live_photo_base64 = request.POST.get('livePhoto')
             # Create and save documents
             save_document(request.user, id_number_base64, 'ID Number/Passport')
             save_document(request.user, proof_of_bank_account_base64, 'Proof of Bank Account')
             save_document(request.user, proof_of_residence_base64, 'Proof of Residence')
             save_document(request.user, nok_id_number_base64, 'Next of Kins ID Document')
             save_document(request.user, proof_of_funding_base64, 'Proof of Funding')
+            save_document(request.user, live_photo_base64, 'Live Photo')
 
 
             return JsonResponse({'success': True})
