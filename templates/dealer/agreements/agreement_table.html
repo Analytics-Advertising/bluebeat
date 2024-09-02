@@ -50,7 +50,15 @@
                             <div class="dropdown-menu" aria-labelledby="actionDropdown">
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'contracts/1. BBD RICA_Reseller Agreement 20240304.pdf' %}">View contract</a>
                                 <a class="dropdown-item" href="{% url 'contract' %}">view & sign contract</a>
-                                <a class="dropdown-item" href="">sign now</a>
+                                <a class="dropdown-item" href="#" id="sign-now-button">Sign Now</a>
+                                {% for document in signed_documents %}
+                                <li>
+                                    <a href="{% url 'view-signed-document' document.id %}">
+                                        {{ document.name }} (Signed on {{ document.date_signed }})
+                                    </a>
+                                </li>
+                            {% endfor %}
+
 
                             </div>
                         </div>
@@ -98,5 +106,50 @@
         });
     });
 
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("sign-now-button").addEventListener("click", function (event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Have you read all our terms and conditions and agree to sign online?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, sign now!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Make an AJAX request to sign the document
+                        signDocument();
+                    }
+                });
+            });
+    
+            function signDocument() {
+                fetch("{% url 'sign-document' %}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": "{{ csrf_token }}",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        "document_path": "system_management/static/contracts/1. BBD RICA_Reseller Agreement 20240304.pdf"
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire('Signed!', 'Your document has been signed.', 'success');
+                    } else {
+                        Swal.fire('Error!', 'There was an error signing your document.', 'error');
+                    }
+                })
+                .catch(error => {
+                    Swal.fire('Error!', 'There was an error signing your document.', 'error');
+                });
+            }
+        });
+    
    
 </script>

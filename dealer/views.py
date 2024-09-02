@@ -4,7 +4,7 @@ from django.shortcuts import render
 from system_management.sendsms import new_account_sms
 from system_management.sendmail import new_account
 from system_management.models import User
-from .models import Address, Application, ContractAcknowledgement, DealerCommercial, CommercialSchedule
+from .models import Address, Application, ContractAcknowledgement, DealerCommercial, CommercialSchedule, SignedContract
 from django.http import JsonResponse, HttpResponse
 from django.core.exceptions import ValidationError
 from django.utils.crypto import get_random_string
@@ -16,6 +16,14 @@ from django.core.files.base import ContentFile
 from .models import DocumentType, Document
 from django.db import IntegrityError
 from urllib.parse import urlparse
+from django.utils import timezone
+from PyPDF2 import PdfReader, PdfWriter, PdfFileReader
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from io import BytesIO
+from django.contrib.auth.decorators import login_required
+
+
 
 # Create your views here.
 
@@ -171,10 +179,13 @@ def agreements(request):
         )
     except ContractAcknowledgement.DoesNotExist:
         all_signed = False
+
+    signed_documents = SignedContract.objects.filter(dealer=request.user)
     
     context = {
         'all_signed': all_signed,
-        'date_signed': acknowledgment.date_acknowledged if all_signed else None
+        'date_signed': acknowledgment.date_acknowledged if all_signed else None,
+        'signed_documents': signed_documents
     }
     
     return render(request, 'dealer/agreements/agreements.html', context)
@@ -289,6 +300,81 @@ def save_document(user, base64_data, doc_type):
 
 def sign_contract_online(request):
     pass
+
+@login_required
+def sign_document(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        document_path = data.get("document_path")
+        if not document_path:
+            return JsonResponse({"success": False, "error": "Document path is missing."})
+
+        try:
+            # Extract user details
+            first_name = request.user.first_name
+            last_name = request.user.last_name
+            user_id_number = Application.objects.filter(user=request.user).first().id_number
+
+            reader = PdfReader(document_path)
+            writer = PdfWriter()
+
+            for page_num in range(len(reader.pages)):
+                page = reader.pages[page_num]
+
+                # Create a new PDF for annotations
+                packet = BytesIO()
+                can = canvas.Canvas(packet, pagesize=letter)
+
+                if page_num == 0:  # Only add name and ID on the first page
+                    # Add first and last name on the first line in the middle
+                    name_text = f"{first_name} {last_name}"
+                    can.drawCentredString(330, 330, name_text)  # Adjust Y position as needed
+
+                    # Add the ID number below the name
+                    can.drawCentredString(350, 295, user_id_number)  # Adjust Y position as needed
+
+                # Add initials on every page (as before)
+                user_initials = ''.join([name[0].upper() for name in request.user.get_full_name().split()])
+                can.drawString(80, 20, user_initials)  # Adjust position as needed
+
+                can.save()
+
+                # Move to the beginning of the StringIO buffer
+                packet.seek(0)
+                new_pdf = PdfReader(packet)
+                new_page = new_pdf.pages[0]
+
+                # Merge the new PDF with the existing page
+                page.merge_page(new_page)
+                writer.add_page(page)
+
+            # Save the signed PDF to a buffer
+            buffer = BytesIO()
+            writer.write(buffer)
+            buffer.seek(0)
+
+            # Encode the signed PDF as base64
+            signed_pdf_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+
+            # Save the signed document to the database
+            SignedContract.objects.create(
+                name=document_path.split('/')[-1],
+                date_signed=timezone.now(),
+                description="Agreement",
+                dealer=request.user,
+                pdf_url=signed_pdf_base64,
+                is_signed=True
+            )
+
+            return JsonResponse({"success": True, "message": "Document signed successfully!"})
+
+        except Exception as e:
+            return JsonResponse({"success": False, "error": str(e)})
+
+    return JsonResponse({"success": False, "error": "Invalid request method"}, status=400)
+
+
+
 def get_documents(request):
     user = request.user  # Assuming the user is authenticated
     documents = Document.objects.filter(user=user)
@@ -309,3 +395,17 @@ def download_document(request, document_id):
     response = HttpResponse(document.document, content_type='application/octet-stream')
     response['Content-Disposition'] = 'attachment; filename="{0}"'.format(document.id)
     return response
+
+
+def view_signed_document(request, document_id):
+    try:
+        signed_document = SignedContract.objects.get(pk=document_id)
+        if signed_document.is_signed:
+            pdf_data = base64.b64decode(signed_document.pdf_url)
+            response = HttpResponse(pdf_data, content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{signed_document.name}"'
+            return response
+        else:
+            return HttpResponse("Document not found or not signed.", status=404)
+    except SignedContract.DoesNotExist:
+        return HttpResponse("Document not found.", status=404)

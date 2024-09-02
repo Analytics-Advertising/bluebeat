@@ -16,6 +16,8 @@ urlpatterns = [
     path('upload-documents/', views.upload_documents, name='upload-documents'),
     path('get-documents/', views.get_documents, name="get-documents"),
     # path('sign-contract-online/', sign_contract_online, name='sign-contract-online'),
+    path('sign-document/', views.sign_document, name='sign-document'),
+    path('signed-document/<int:document_id>/', views.view_signed_document, name='view-signed-document'),
 
 
 ]
