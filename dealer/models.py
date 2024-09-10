@@ -46,6 +46,7 @@ class Application(models.Model):
     required_networks = models.CharField(max_length=255)
     best_networks = models.CharField(max_length=255)
     vat_registered = models.CharField(max_length=3, choices=[('Yes', 'Yes'), ('No', 'No')])
+    vat_number = models.CharField(max_length=45, blank=True,null=True)
     average_activations = models.CharField(max_length=45)
     
     # Additional Information

@@ -312,48 +312,28 @@
                   <div class="form-group col-md-6">
                     <label for="app-distribution-method">What is your method of distribution?*</label>
                     <div id="app-distribution-method">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="shop-to-shop" name="app-distribution-method" value="Shop-to-Shop">
-                            <label class="form-check-label" for="shop-to-shop">
-                                Shop-to-Shop
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="promotions" name="app-distribution-method" value="Promotions">
-                            <label class="form-check-label" for="promotions">
-                                Promotions
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="on-demand" name="app-distribution-method" value="On-Demand">
-                            <label class="form-check-label" for="on-demand">
-                                On-Demand
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="other" name="app-distribution-method" value="Other">
-                            <label class="form-check-label" for="other">
-                                Other
-                            </label>
-                        </div>
-                        <!-- Additional input field for "Other" option -->
-                        <div id="other-input" style="display:none;">
-                            <label for="other-description">Please specify:</label>
-                            <input type="text" id="other-description" name="other-description" class="form-control">
-                        </div>
-                    </div>
-                    
-
-                    <div class="form-group" id="other-method-group" style="display: none;">
-                      <label for="app-other-method">Please specify:</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Please specify..."
-                        id="app-other-method"
-                        name="app-other-method"
-                        maxlength="45"
-                      />
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="shop-to-shop" name="app-distribution-method" value="Shop-to-Shop">
+                        <label class="form-check-label" for="shop-to-shop">Shop-to-Shop</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="promotions" name="app-distribution-method" value="Promotions">
+                        <label class="form-check-label" for="promotions">Promotions</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="on-demand" name="app-distribution-method" value="On-Demand">
+                        <label class="form-check-label" for="on-demand">On-Demand</label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="other" name="app-distribution-method" value="Other">
+                        <label class="form-check-label" for="other">Other</label>
+                      </div>
+                  
+                      <!-- Additional input field for "Other" option -->
+                      <div class="form-group" id="other-method-group" style="display: none;">
+                        <label for="app-other-method">Please specify:</label>
+                        <input type="text" class="form-control" placeholder="Please specify..." id="app-other-method" name="app-other-method" maxlength="45" />
+                      </div>
                     </div>
                   </div>
 
@@ -518,6 +498,13 @@
                       </select>
                     </div>
                     
+                    <!-- Hidden input field for VAT number -->
+                    <div class="form-group col-md-6" id="vat-number-group" style="display: none;">
+                      <label for="vat-number">Please provide your VAT number:</label>
+                      <input type="text" class="form-control" id="vat-number" name="vat-number" placeholder="VAT Number">
+                    </div>
+                    
+
                     <div class="form-group col-md-6">
                       <label for="app-average-activations">What is your average activations per month?*</label>
                       <input

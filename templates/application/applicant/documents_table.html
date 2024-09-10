@@ -52,8 +52,10 @@
 
                 </td>
                 <td class="d-flex">
-                    <button class="view-pdf-btn btn mr-1" data-document="{{ document.document }}">
-                    <i class="fa-solid fa-file-pdf text-warning"></i></button>
+                    <!-- Single "View" button -->
+                    <button class="view-pdf-btn btn mr-1" data-document="{{ documentBase64 }}">View
+                    <i class="fa-solid fa-eye text-warning"></i></button>
+                  </button>
 
                     {% if  document.document_type.doc_type  == 'Next of Kins ID Document' %}
                      
@@ -106,36 +108,43 @@
 
 
 <script>
-
   $(document).ready(function () {
+    const viewDocumentButton = document.querySelector('.view-pdf-btn');
 
+    viewDocumentButton.addEventListener('click', () => {
+        // Get the base64-encoded document data from the button's data attribute
+        const base64Document = viewDocumentButton.getAttribute('data-document');
 
-    const viewPdfButtons = document.querySelectorAll('.view-pdf-btn');
-    
-    // Add click event listener to each button
-    viewPdfButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Get the base64-encoded document data from the button's data attribute
-            const base64Document = button.getAttribute('data-document');
-            
-            // Convert the base64 string to a Blob object
-            const byteCharacters = atob(base64Document);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], { type: 'application/pdf' });
-    
-            // Create a URL for the Blob object
-            const url = URL.createObjectURL(blob);
-    
-            // Open the PDF document in a new tab
-            window.open(url, '_blank');
-        });
+        // Check the file type based on the base64 prefix
+        const base64Prefix = base64Document.substring(0, 15);
+
+        let mimeType;
+        if (base64Prefix.includes('JVBER')) {
+            mimeType = 'application/pdf';  // PDF base64 prefix starts with "JVBER"
+        } else if (base64Prefix.includes('/9j/')) {
+            mimeType = 'image/jpeg';  // JPEG base64 prefix starts with "/9j/"
+        } else if (base64Prefix.includes('iVBOR')) {
+            mimeType = 'image/png';  // PNG base64 prefix starts with "iVBOR"
+        } else {
+            alert('Unsupported file format');
+            return;
+        }
+
+        // Decode the base64 string and convert it to a Blob
+        const byteCharacters = atob(base64Document);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: mimeType });
+
+        // Create a URL for the Blob and open the document in a new tab
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
     });
-    
-    })
+});
+
 
     
 </script>

@@ -1,16 +1,32 @@
 // NEW CODE //
 
-function showOtherInput() {
-    var select = document.getElementById('app-distribution-method');
+document.addEventListener('DOMContentLoaded', function() {
+    var otherCheckbox = document.getElementById('other');
     var otherInput = document.getElementById('other-method-group');
-    if (select.value === 'Other') {
-      otherInput.style.display = 'block';
-    } else {
-      otherInput.style.display = 'none';
-    }
-  }
+  
+    otherCheckbox.addEventListener('change', function() {
+      if (otherCheckbox.checked) {
+        otherInput.style.display = 'block';
+      } else {
+        otherInput.style.display = 'none';
+      }
+    });
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    var vatSelect = document.getElementById('app-vat-registration');
+    var vatInputGroup = document.getElementById('vat-number-group');
+  
+    vatSelect.addEventListener('change', function() {
+      if (vatSelect.value === 'Yes') {
+        vatInputGroup.style.display = 'block';
+      } else {
+        vatInputGroup.style.display = 'none';
+      }
+    });
+  });
 
-
+  
   function submitForm(formId) {
     var form = $('#' + formId);
     
