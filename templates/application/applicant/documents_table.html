@@ -52,10 +52,19 @@
 
                 </td>
                 <td class="d-flex">
-                    <!-- Single "View" button -->
-                    <button class="view-pdf-btn btn mr-1" data-document="{{ documentBase64 }}">View
-                    <i class="fa-solid fa-eye text-warning"></i></button>
-                  </button>
+
+
+                      {% if  document.document_type.doc_type  == 'Live Photo' %}
+                      <button class="view-image-btn btn mr-1" data-document="{{ document.document  }}">
+                        <i class="fa-solid fa-image text-warning"></i></button>
+                      </button>
+                      {% else %}
+                      <button class="view-pdf-btn btn mr-1" data-document="{{ document.document  }}">
+                        <i class="fa-solid  fa-file-pdf text-warning"></i></button>
+                      </button>
+                      {% endif %}
+                      
+
 
                     {% if  document.document_type.doc_type  == 'Next of Kins ID Document' %}
                      
@@ -64,7 +73,7 @@
                       </label>
                       <input type="file" class="form-control custom-upload-file" id="app-nok-id-number-file" name="app-nok-id-number-file" accept="application/pdf" style="display: none;"/>
 
-                    {% elif  document.document_type.doc_type  == 'Proof of Residence' %}
+                    {% elif  document.document_type.doc_type  == 'Proof of Residencee' %}
                     
                     <label for="app-proof-of-residence-file" class="custom-upload-label" data-toggle="tooltip" data-placement="top" title="Update Proof of Residence Document">
                         <i class="fas fa-cloud-upload-alt"></i>
@@ -108,43 +117,61 @@
 
 
 <script>
-  $(document).ready(function () {
-    const viewDocumentButton = document.querySelector('.view-pdf-btn');
 
-    viewDocumentButton.addEventListener('click', () => {
-        // Get the base64-encoded document data from the button's data attribute
-        const base64Document = viewDocumentButton.getAttribute('data-document');
-
-        // Check the file type based on the base64 prefix
-        const base64Prefix = base64Document.substring(0, 15);
-
-        let mimeType;
-        if (base64Prefix.includes('JVBER')) {
-            mimeType = 'application/pdf';  // PDF base64 prefix starts with "JVBER"
-        } else if (base64Prefix.includes('/9j/')) {
-            mimeType = 'image/jpeg';  // JPEG base64 prefix starts with "/9j/"
-        } else if (base64Prefix.includes('iVBOR')) {
-            mimeType = 'image/png';  // PNG base64 prefix starts with "iVBOR"
-        } else {
-            alert('Unsupported file format');
-            return;
-        }
-
-        // Decode the base64 string and convert it to a Blob
-        const byteCharacters = atob(base64Document);
+  function viewPdf(base64Document) {
+    try {
+        const base64Data = base64Document.includes(',') ? base64Document.split(',')[1] : base64Document;
+        const byteCharacters = atob(base64Data);
         const byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {
             byteNumbers[i] = byteCharacters.charCodeAt(i);
         }
         const byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: mimeType });
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
 
-        // Create a URL for the Blob and open the document in a new tab
         const url = URL.createObjectURL(blob);
         window.open(url, '_blank');
-    });
-});
+    } catch (error) {
+        console.error('Error opening PDF:', error);
+        alert('There was an error opening the PDF.');
+    }
+}
 
+
+function viewImage(base64Document) {
+  try {
+      const base64Data = base64Document.includes(',') ? base64Document.split(',')[1] : base64Document;
+      const byteCharacters = atob(base64Data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/jpeg' }); // Adjust MIME type if needed
+
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+  } catch (error) {
+      console.error('Error opening image:', error);
+      alert('There was an error opening the image.');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.view-pdf-btn').forEach(button => {
+      button.addEventListener('click', () => {
+          const base64Document = button.getAttribute('data-document');
+          viewPdf(base64Document);
+      });
+  });
+
+  document.querySelectorAll('.view-image-btn').forEach(button => {
+      button.addEventListener('click', () => {
+          const base64Document = button.getAttribute('data-document');
+          viewImage(base64Document);
+      });
+  });
+});
 
     
 </script>
