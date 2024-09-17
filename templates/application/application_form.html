@@ -20,6 +20,7 @@
     style="background-image: url({%static'images/reg_bg.jpeg'%})"
   ></div>
   {% endcomment %}
+  
   <div class="contents">
     <div class="container">
       <div class="row align-items-center justify-content-center">
@@ -58,7 +59,7 @@
                 <div class="application-header mb-4 align-items-center">
                   <div class="d-flex">
                     <div class="circle-icon bg-primary text-white">
-                      <span class="application-step-icon">2</span>
+                      <span class="application-step-icon">1</span>
                     </div>
                     <div class="application-info">
                       <h6 class="text-primary">
@@ -99,7 +100,7 @@
                   <div class="form-group col-md-6">
                     <label for="app-email">Email:</label>
                     <input
-                      type="text"
+                      type="email"
                       maxlength="50"
                       class="form-control"
                       placeholder="eg. user@example.com"
@@ -109,6 +110,20 @@
                   </div>
                 
                   <div class="form-group col-md-6">
+                    <label for="app-phone-number">Phone Number:</label>
+                    <input
+                    type="number"
+                    class="form-control"
+                    placeholder="eg. 0712345678"
+                    id="app-phone-number"
+                    name="app-phone-number"
+                />
+                
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-md-6">
                     <label for="app-alt-phone-number">Alternative Phone Number:</label>
                     <input
                       type="text"
@@ -117,22 +132,10 @@
                       placeholder="eg. 0712345678"
                       id="app-alt-phone-number"
                       name="app-alt-phone-number"
-                    />
+                  />
                   </div>
-                </div>
-                
-                <div class="row">
-                  <div class="form-group col-md-6">
-                    <label for="app-phone-number">Phone Number:</label>
-                    <input
-                      type="text"
-                      maxlength="10"
-                      class="form-control"
-                      placeholder="eg. 0712345678"
-                      id="app-phone-number"
-                      name="app-phone-number"
-                    />
-                  </div>
+
+                  
                 
                   <div class="form-group col-md-6">
                     <label for="app-id-number">ID Number/Passport:</label>
@@ -153,12 +156,12 @@
                       Please provide us with your direct phone number, if it may differ from your WhatsApp number:
                     </label>
                     <input
-                      type="text"
-                      maxlength="10"
-                      class="form-control"
-                      placeholder="eg. 0794647589"
-                      id="app-direct-phone-number"
-                      name="app-direct-phone-number"
+                        type="text"
+                        maxlength="10"
+                        class="form-control"
+                        placeholder="eg. 0794647589"
+                        id="app-direct-phone-number"
+                        name="app-direct-phone-number"
                     />
                   </div>
                 </div>
@@ -261,7 +264,7 @@
                 <div class="application-header mb-4 align-items-center">
                   <div class="d-flex">
                     <div class="circle-icon bg-primary text-white">
-                      <span class="application-step-icon">3</span>
+                      <span class="application-step-icon">2</span>
                     </div>
                     <div class="application-info">
                       <h6 class="text-primary">
@@ -312,30 +315,31 @@
                   <div class="form-group col-md-6">
                     <label for="app-distribution-method">What is your method of distribution?*</label>
                     <div id="app-distribution-method">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="shop-to-shop" name="app-distribution-method" value="Shop-to-Shop">
-                        <label class="form-check-label" for="shop-to-shop">Shop-to-Shop</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="promotions" name="app-distribution-method" value="Promotions">
-                        <label class="form-check-label" for="promotions">Promotions</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="on-demand" name="app-distribution-method" value="On-Demand">
-                        <label class="form-check-label" for="on-demand">On-Demand</label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="other" name="app-distribution-method" value="Other">
-                        <label class="form-check-label" for="other">Other</label>
-                      </div>
-                  
-                      <!-- Additional input field for "Other" option -->
-                      <div class="form-group" id="other-method-group" style="display: none;">
-                        <label for="app-other-method">Please specify:</label>
-                        <input type="text" class="form-control" placeholder="Please specify..." id="app-other-method" name="app-other-method" maxlength="45" />
-                      </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="shop-to-shop" name="app-distribution-method" value="Shop-to-Shop">
+                            <label class="form-check-label" for="shop-to-shop">Shop-to-Shop</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="promotions" name="app-distribution-method" value="Promotions">
+                            <label class="form-check-label" for="promotions">Promotions</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="on-demand" name="app-distribution-method" value="On-Demand">
+                            <label class="form-check-label" for="on-demand">On-Demand</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="other" name="app-distribution-method" value="Other">
+                            <label class="form-check-label" for="other">Other</label>
+                        </div>
+                    
+                        <!-- Additional input field for "Other" option -->
+                        <div class="form-group" id="other-method-group" style="display: none;">
+                            <label for="app-other-method">Please specify:</label>
+                            <input type="text" class="form-control" placeholder="Please specify..." id="app-other-method" name="app-other-method" maxlength="45" />
+                        </div>
                     </div>
-                  </div>
+                </div>
+                
 
                   
                 </div>
@@ -527,7 +531,7 @@
                 <div class="application-header mb-4 align-items-center">
                   <div class="d-flex">
                     <div class="circle-icon bg-primary text-white">
-                      <span class="application-step-icon">4</span>
+                      <span class="application-step-icon">3</span>
                     </div>
                     <div class="application-info">
                       <h6 class="text-primary"><strong>Feedback.</strong></h6>

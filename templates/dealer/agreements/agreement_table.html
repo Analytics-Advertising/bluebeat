@@ -9,10 +9,6 @@
                     <th scope="col" class="fs-2">Date Signed</th>
                     <th scope="col" class="fs-2">T's & C's</th>
                     <th scope="col" class="fs-2">Contract</th>
-                    {% if is_contract_signed %}
-                    <th scope="col" class="fs-2">Signed Contract</th>
-            
-                    {% endif %}
                     <th scope="col" class="fs-2">Action</th>
                 </tr>
             </thead>
@@ -57,19 +53,6 @@
                         </span>
                     </td>
                     
-                    <td>
-                        {% for document in signed_documents %}
-                        <li>
-                            <a href="{% url 'view-signed-document' document.id %}">
-                                {% comment %} {{ document.name }} (Signed on {{ document.date_signed }}) {% endcomment %}
-                                <i class="fas fa-eye"></i>
-                                {% comment %} shorten the document name {% endcomment %}
-                                {{ document.name|truncatechars:20 }}
-                            </a>
-                        </li>
-                        {% endfor %}
-                    </td>
-
                     
                     <td class="d-flex">
                         <div class="dropdown">
@@ -84,6 +67,11 @@
                                {% else %}
                                <a class="dropdown-item" href="#" id="sign-now-button">Sign Now</a>
                                {% endif %}
+                               {% for document in signed_documents %}
+                                   <a class="dropdown-item"  href="{% url 'view-signed-document' document.id %}">
+                                       {{ document.name|truncatechars:20 }}
+                                   </a>
+                               {% endfor %}
                                 
 
 

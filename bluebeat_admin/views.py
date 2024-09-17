@@ -118,7 +118,7 @@ def update_application_status(request):
             # URL can be provided if needed, or set to None
             url = 'https://bluebeat.digital/login'
             
-            send_status_email(user_email, user_first_name, status.lower(), url)
+            # send_status_email(user_email, user_first_name, status.lower(), url)
             send_status_sms(user_email, user_first_name, status.lower(), url)
 
         return JsonResponse({'message': 'Status updated successfully'})

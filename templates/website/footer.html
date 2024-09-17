@@ -1,38 +1,75 @@
 {% load static %}
 
+<style>
+    .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: #f8f9fa; /* Light background for icons */
+        border-radius: 50%; /* Circular background */
+        transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+        text-decoration: none; /* Remove underline */
+    }
+    
+    .social-icon:hover {
+        background-color: #007bff; /* Background color on hover */
+        color: #fff; /* Icon color on hover */
+    }
+    
+    .social-icon i {
+        line-height: 1;
+    }
+    
+</style>
+
 <footer class="footer mt-5 mt-auto py-5 bg-light border-top">
     <div class="container">
         <div class="row">
             <!-- Company Info -->
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-4">
                 <h5 class="mb-3">About Us</h5>
-                <p>Email: <a href="mailto:info@bluebeat.digital">info@bluebeat.digital</a></p>
+                <p>Email: <a href="mailto:info@bluebeat.digital" class="text-decoration-none text-dark">info@bluebeat.digital</a></p>
             </div>
             <!-- Navigation Links -->
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-4">
                 <h5 class="mb-3">Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none">Home</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none">About</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none">Services</a></li>
+                    <li><a href="#" class="text-dark text-decoration-none">Contact</a></li>
                 </ul>
             </div>
             <!-- Social Media Links -->
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-4">
                 <h5 class="mb-3">Follow Us</h5>
-                <ul class="list-unstyled d-flex">
-                    <li class="me-3"><a href="#" class="text-dark"><i class="fab fa-facebook-f"></i></a></li>
-                    <li class="me-3"><a href="#" class="text-dark"><i class="fab fa-twitter"></i></a></li>
-                    <li class="me-3"><a href="#" class="text-dark"><i class="fab fa-linkedin-in"></i></a></li>
-                    <li class="me-3"><a href="#" class="text-dark"><i class="fab fa-instagram"></i></a></li>
+                <ul class="list-unstyled d-flex justify-content-start">
+                    <li class="me-3">
+                        <a href="#" class="social-icon text-dark fs-4" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    </li>
+                    <li class="me-3">
+                        <a href="#" class="social-icon text-dark fs-4" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    </li>
+                    <li class="me-3">
+                        <a href="#" class="social-icon text-dark fs-4" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </li>
+                    <li>
+                        <a href="#" class="social-icon text-dark fs-4" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    </li>
                 </ul>
             </div>
         </div>
         <div class="row mt-4">
             <div class="col text-center">
-                <p class="mb-0">&copy; 2024 BlueBeat Digital. All Rights Reserved.</p>
+                <p class="mb-0 text-muted">&copy; 2024 BlueBeat Digital. All Rights Reserved.</p>
             </div>
         </div>
     </div>
 </footer>
+
+<!-- Include Bootstrap CSS and Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+

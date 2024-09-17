@@ -131,6 +131,8 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link fs-2 active border-0" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Quiz Answers</a>
                 <a class="nav-item nav-link fs-2 border-0" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Documents</a>
+                <a class="nav-item nav-link fs-2 border-0" id="nav-logs-tab" data-toggle="tab" href="#nav-logs" role="tab" aria-controls="nav-logs" aria-selected="true">Logs</a>
+
             </div>
         </nav>
         
@@ -201,11 +203,55 @@
 
             </div>
 
-            <div class="tab-pane fade" id="nav-emails" role="tabpanel" aria-labelledby="nav-emails-tab">
-
-                {% comment %} {% include "./emails_table.html" %} {% endcomment %}
-
+            <div class="tab-pane fade" id="nav-logs" role="tabpanel" aria-labelledby="nav-logs-tab">
+                <div class="container mt-3">
+                    <h4>Activity Logs</h4>
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Time</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dummy log entries -->
+                            <tr>
+                                <td>1</td>
+                                <td>2024-09-09</td>
+                                <td>10:15 AM</td>
+                                <td>Rotondwa Muthelo</td>
+                                <td>Logged in</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>2024-09-09</td>
+                                <td>10:20 AM</td>
+                                <td>Rotondwa Muthelo</td>
+                                <td>Changed their name</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>2024-09-10</td>
+                                <td>10:25 AM</td>
+                                <td>JRotondwa Muthelo</td>
+                                <td>Updated profile</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>2024-09-11</td>
+                                <td>10:30 AM</td>
+                                <td>Rotondwa Muthelo</td>
+                                <td>Changed their address</td>
+                            </tr>
+                            <!-- Add more dummy log rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            
           
         </div>
 

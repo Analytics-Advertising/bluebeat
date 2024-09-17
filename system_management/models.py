@@ -1,5 +1,6 @@
 from django.db import models
-
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 # Create your models here.
 
 from django.contrib.auth.models import AbstractUser, BaseUserManager
@@ -112,3 +113,17 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+
+# class UserLog(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     activity = models.CharField(max_length=255)
+#     timestamp = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f'{self.user} - {self.activity} at {self.timestamp}'
+    
+
+
+# @receiver(post_save, sender=Profile)
+# def track_profile_changes(sender, instance, **kwargs):

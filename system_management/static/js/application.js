@@ -1,61 +1,135 @@
 // NEW CODE //
+document.addEventListener('DOMContentLoaded', function() {
+    function enforceNumericLimit(inputId) {
+        var input = document.getElementById(inputId);
+
+        input.addEventListener('input', function() {
+            // Remove any non-digit characters
+            var value = input.value.replace(/\D/g, '');
+
+            // Limit to 10 digits
+            if (value.length > 10) {
+                value = value.slice(0, 10);
+            }
+
+            input.value = value;
+        });
+    }
+
+    // Apply to each phone number field
+    enforceNumericLimit('app-phone-number');
+    enforceNumericLimit('app-alt-phone-number');
+    enforceNumericLimit('app-direct-phone-number');
+});
+
 
 document.addEventListener('DOMContentLoaded', function() {
     var otherCheckbox = document.getElementById('other');
-    var otherInput = document.getElementById('other-method-group');
-  
+    var otherInputGroup = document.getElementById('other-method-group');
+    var otherInput = document.getElementById('app-other-method');
+
+    // Show/hide "Please specify" field based on "Other" checkbox selection
     otherCheckbox.addEventListener('change', function() {
-      if (otherCheckbox.checked) {
-        otherInput.style.display = 'block';
-      } else {
-        otherInput.style.display = 'none';
-      }
+        if (otherCheckbox.checked) {
+            otherInputGroup.style.display = 'block'; // Show the "Please specify" field
+            otherInput.setAttribute('required', 'required'); // Make "Please specify" required
+        } else {
+            otherInputGroup.style.display = 'none'; // Hide the "Please specify" field
+            otherInput.removeAttribute('required'); // Remove required from "Please specify"
+        }
     });
-  });
-  
+});
+
   document.addEventListener('DOMContentLoaded', function() {
     var vatSelect = document.getElementById('app-vat-registration');
     var vatInputGroup = document.getElementById('vat-number-group');
-  
+    var vatInput = document.getElementById('vat-number');
+
     vatSelect.addEventListener('change', function() {
-      if (vatSelect.value === 'Yes') {
-        vatInputGroup.style.display = 'block';
-      } else {
-        vatInputGroup.style.display = 'none';
-      }
+        if (vatSelect.value === 'Yes') {
+            vatInputGroup.style.display = 'block'; // Show the VAT input field
+            vatInput.setAttribute('required', 'required'); // Make VAT number required
+        } else {
+            vatInputGroup.style.display = 'none'; // Hide the VAT input field
+            vatInput.removeAttribute('required'); // Remove required from VAT number
+        }
     });
-  });
+});
+
 
   
   function submitForm(formId) {
     var form = $('#' + formId);
-    
-    // Serialize form data
-    var formData = form.serialize();
+        
+        // Serialize form data
+        var formData = form.serializeArray();
+        
+        // Check if all fields except VAT number (if not required) are filled
+        var allFieldsFilled = true;
 
-    console.log(formData);
+        formData.forEach(function(field) {
+            // Skip validation for the VAT number if VAT registration is "No"
+            if (field.name === 'vat-number' && $('#app-vat-registration').val() !== 'Yes') {
+                return;  // Skip VAT number validation when not required
+            }
+             // Skip validation for "Please specify" if "Other" is not checked
+             if (field.name === 'app-other-method' && !$('#other').is(':checked')) {
+                return;  // Skip "Please specify" validation when not required
+            }
+            if (!field.value) {
+                allFieldsFilled = false;  // If any required field is empty
+            }
+        });
+
+        // If any required field is missing, show SweetAlert warning
+        if (!allFieldsFilled) {
+            swal.fire({
+                title: 'Missing Fields!',
+                text: 'Please fill out all required fields.',
+                icon: 'warning',
+                timer: 3000,
+                timerProgressBar: true
+            });
+            return;  // Stop form submission
+        }
 
     // AJAX request
     $.ajax({
         type: 'POST',
         url: form.attr('action'),  // Use form's action attribute as the URL
-        data: formData,
+        data: $.param(formData),  // Convert formData back to query string
         dataType: 'json',
         success: function(response) {
-            alert('Application submitted successfully!');  // Show success message
-            location.reload(true);  // Reload the page after successful submission
+            swal.fire({
+                title: 'Success!',
+                text: 'Application submitted successfully!',
+                icon: 'success',
+                button: 'OK'
+            }).then(() => {
+                location.reload(true);  // Reload the page after successful submission
+            });
         },
         error: function(xhr, errmsg, err) {
-            // Display errors from Django view
+            var errorMessage = 'Failed to submit application: ' + errmsg;
             if (xhr.responseJSON && xhr.responseJSON.error) {
-                alert('Failed to submit application: ' + xhr.responseJSON.error);  // Show Django view's error message
-            } else {
-                alert('Failed to submit application: ' + errmsg);  // Show general error message
+                errorMessage = 'Failed to submit application: ' + xhr.responseJSON.error;
             }
+            
+            Swal.fire({
+                title: 'Error!',
+                text: errorMessage,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.reload(true);  // Reload the page when the user clicks "OK"
+                }
+            });
         }
     });
-
 }
+
+
 
 // NEW CODE //
 

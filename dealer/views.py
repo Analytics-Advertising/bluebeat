@@ -119,7 +119,7 @@ def submit_application(request):
                     'preferred_communication': request.POST.get('app-preferred-communication'),
                     'airtime_solution': request.POST.get('app-airtime-solution'),
                     'hear_about_us': request.POST.get('app-hear-about-us'),
-                    'vat_registered': request.POST.get('vat-number"'),
+                    'vat_number': request.POST.get('vat-number"'),
                 }
 
                 # Create Application instance
