@@ -139,7 +139,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {% if not has_commercial %}
                 <button type="button" class="btn btn-success" id="chooseButton">Choose</button>
+                {% endif %}
             </div>
         </div>
     </div>

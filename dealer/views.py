@@ -256,7 +256,6 @@ def verification_documents(request):
     return render(request, 'dealer/verification_documents/verification_documents.html')
 
 def upload_documents(request):
-    print("hahaha")
 
     if request.method == 'POST':
         try:
@@ -314,7 +313,7 @@ def sign_document(request):
         if not document_path:
             return JsonResponse({"success": False, "error": "Document path is missing."})
         
-        # check if user has read terms and conditions
+        # Check if user has read terms and conditions
         try:
             acknowledgment = ContractAcknowledgement.objects.get(dealer=request.user)
             all_signed = (
@@ -330,13 +329,24 @@ def sign_document(request):
             all_signed = False
             return JsonResponse({"success": False, "error": "Please read and accept the terms and conditions."})
         
-            
-        print(all_signed)
         try:
             # Extract user details
-            first_name = request.user.first_name
-            last_name = request.user.last_name
-            user_id_number = Application.objects.filter(user=request.user).first().id_number
+            # Get the user profile and address once
+            user = request.user
+            address = Address.objects.filter(user=user).first()  # Assuming there's only one address per user
+
+            # Extract user details
+            first_name = user.first_name
+            last_name = user.last_name
+            user_id_number = Application.objects.filter(user=user).first().id_number
+
+            # Extract address details
+            user_address = address.street_address if address else ''
+            user_city = address.city if address else ''
+            user_suburb = address.suburb if address else ''
+            user_province = address.province if address else ''
+            user_postal_code = address.postal_code if address else ''
+
 
             reader = PdfReader(document_path)
             writer = PdfWriter()
@@ -354,7 +364,34 @@ def sign_document(request):
                     can.drawCentredString(330, 330, name_text)  # Adjust Y position as needed
 
                     # Add the ID number below the name
-                    can.drawCentredString(350, 295, user_id_number)  # Adjust Y position as needed
+                    can.drawCentredString(330, 295, user_id_number)  # Adjust Y position as needed
+                if page_num == 20:  # Add address and signed online text on page 21
+                    # Draw user's address directly without titles
+                    address_text = (
+                        f"{user_address}\n"
+                        f"{user_city}\n"
+                        f"{user_suburb}\n"
+                        f"{user_province}\n"
+                        f"{user_postal_code}"
+                    )
+                    text_object = can.beginText(150, 560)  # Starting position
+                    text_object.setTextOrigin(150, 560)
+                    text_object.setFont("Helvetica", 12)
+                    text_object.textLines(address_text)
+                    can.drawText(text_object)
+
+                if page_num == 23:  # Page numbers are zero-indexed, so page 24 is index 23
+                    # Define the starting Y position for the placeholders
+                    start_y = 760  # Adjust as needed to position below the existing lines
+                    line_spacing = 20  # Adjust this value for spacing between placeholders
+
+                    can.setFont("Helvetica", 12)
+                    
+                    # Draw placeholders below the lines
+                    can.drawString(220, start_y, "Signed Online")
+                    can.drawString(360, start_y, "17")
+                    can.drawString(420, start_y, "Sep")
+                    can.drawString(510, start_y, "24")
 
                 # Add initials on every page (as before)
                 user_initials = ''.join([name[0].upper() for name in request.user.get_full_name().split()])
@@ -395,6 +432,7 @@ def sign_document(request):
             return JsonResponse({"success": False, "error": str(e)})
 
     return JsonResponse({"success": False, "error": "Invalid request method"}, status=400)
+
 
 
 
