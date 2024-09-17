@@ -20,13 +20,13 @@
         </div>
         <div class="position-absolute" style="bottom: 10px; right: 10px;">
            
-            {% if has_commercial.commercial_schedule.name == 'Commercial Schedule A1' %}
+            {% if has_commercial.commercial_schedule.name == 'Free Stock 1' %}
             <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.1.pdf' %}" data-schedule-name="Commercial Schedule A1"></i>
-            {% elif has_commercial.commercial_schedule.name == 'Commercial Schedule A2' %}
+            {% elif has_commercial.commercial_schedule.name == 'Free Stock 2' %}
             <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option A.2.pdf' %}" data-schedule-name="Commercial Schedule A2"></i>
-            {% elif has_commercial.commercial_schedule.name == 'Commercial Schedule B1' %}
+            {% elif has_commercial.commercial_schedule.name == 'Buying Stock 1' %}
             <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.1.pdf' %}" data-schedule-name="Commercial Schedule B1"></i>
-            {% elif has_commercial.commercial_schedule.name == 'Commercial Schedule B2' %}
+            {% elif has_commercial.commercial_schedule.name == 'Buying Stock 2' %}
             <i class="fa-solid fa-arrow-right" data-toggle="modal" data-target="#pdfModal" data-pdf-url="{% static 'commercials/CS - Option B.2.pdf' %}" data-schedule-name="Commercial Schedule B2"></i>
             {% endif %}
 
