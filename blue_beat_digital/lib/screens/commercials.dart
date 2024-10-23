@@ -9,14 +9,14 @@ class CommercialsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Commercials'),
-         backgroundColor: Colors.blue,
+        title: const Text('My Commercials'),
+        backgroundColor: Colors.blue,
       ),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.blue,
               ),
               child: Column(
@@ -26,7 +26,7 @@ class CommercialsPage extends StatelessWidget {
                     'assets/logo-white.png',
                     height: 60,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   const Text(
                     "BLUEBEAT DIGITAL",
                     style: TextStyle(
@@ -39,8 +39,8 @@ class CommercialsPage extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('My Home'),
+              leading: const Icon(Icons.home),
+              title: const Text('My Home'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -49,8 +49,8 @@ class CommercialsPage extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.attach_money),
-              title: Text('My Commercials'),
+              leading: const Icon(Icons.attach_money),
+              title: const Text('My Commercials'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -59,8 +59,8 @@ class CommercialsPage extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.description),
-              title: Text('Reseller & Rica Agreement'),
+              leading: const Icon(Icons.description),
+              title: const Text('Reseller & Rica Agreement'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -69,8 +69,8 @@ class CommercialsPage extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.verified),
-              title: Text('Verification Documents'),
+              leading: const Icon(Icons.verified),
+              title: const Text('Verification Documents'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -78,10 +78,10 @@ class CommercialsPage extends StatelessWidget {
                 );
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
               onTap: () {
                 Navigator.push(
                   context,
@@ -97,34 +97,32 @@ class CommercialsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Commercials',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Card(
               child: ListTile(
-                leading: CircleAvatar(
+                leading: const CircleAvatar(
                   backgroundColor: Colors.blue,
                   child: Icon(
                     Icons.description,
                     color: Colors.white,
                   ),
                 ),
-                title: Text(
+                title: const Text(
                   'Free Stock 2',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle: Text('commercial Schedule'),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  
-                },
+                subtitle: const Text('commercial Schedule'),
+                trailing: const Icon(Icons.arrow_forward),
+                onTap: () {},
               ),
             ),
           ],
